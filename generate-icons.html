@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head><title>Icon Generator</title></head>
+<body style="background:#0d0d1a;color:white;font-family:sans-serif;padding:20px">
+<h2>Generating icons... check console</h2>
+<canvas id="c" style="display:none"></canvas>
+<div id="links"></div>
+<script>
+const sizes = [72,96,128,144,152,192,384,512];
+const canvas = document.getElementById('c');
+const ctx = canvas.getContext('2d');
+const links = document.getElementById('links');
+
+sizes.forEach(size => {
+  canvas.width = size;
+  canvas.height = size;
+
+  // Background gradient
+  const grad = ctx.createLinearGradient(0, 0, size, size);
+  grad.addColorStop(0, '#7c3aed');
+  grad.addColorStop(1, '#2563eb');
+  ctx.fillStyle = grad;
+  ctx.beginPath();
+  ctx.roundRect(0, 0, size, size, size * 0.2);
+  ctx.fill();
+
+  // Text "A"
+  ctx.fillStyle = 'white';
+  ctx.font = `bold ${size * 0.52}px Inter, sans-serif`;
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('A', size / 2, size / 2);
+
+  // Small "AI" text below
+  ctx.font = `bold ${size * 0.18}px Inter, sans-serif`;
+  ctx.fillStyle = 'rgba(255,255,255,0.75)';
+  ctx.fillText('AI', size / 2, size * 0.78);
+
+  const dataUrl = canvas.toDataURL('image/png');
+  const a = document.createElement('a');
+  a.href = dataUrl;
+  a.download = `icon-${size}.png`;
+  a.textContent = `Download icon-${size}.png`;
+  a.style.cssText = 'display:block;color:#a78bfa;margin:6px 0;font-size:14px';
+  links.appendChild(a);
+});
+
+// Auto-click all downloads
+setTimeout(() => {
+  document.querySelectorAll('a').forEach((a, i) => {
+    setTimeout(() => a.click(), i * 300);
+  });
+}, 500);
+</script>
+</body>
+</html>
