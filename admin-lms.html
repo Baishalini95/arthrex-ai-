@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin LMS — Arthrex AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="admin-lms.css"/>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Arthrex<span>AI</span> <span class="admin-badge">LMS Admin</span></div>
+    </div>
+    <div class="topbar-right">
+      <a href="admin.html" class="btn-back">← Enrollments</a>
+      <a href="index.html" class="btn-back">Dashboard</a>
+    </div>
+  </header>
+
+  <div class="alms-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="alms-sidebar">
+      <div class="alms-sidebar-title">Course Manager</div>
+
+      <!-- AI Programs -->
+      <div class="category-filter">
+        <label>AI Programs</label>
+        <div class="category-buttons" id="programButtons">
+          <button class="cat-btn active" data-category="all">All</button>
+          <button class="cat-btn" data-category="agentic">🤖 Agentic AI</button>
+          <button class="cat-btn" data-category="genai">✨ Generative AI</button>
+          <button class="cat-btn" data-category="datascience">🔬 Data Science</button>
+          <button class="cat-btn" data-category="domainai">🏭 Industry AI</button>
+        </div>
+      </div>
+
+      <!-- Subcategory Filter Chips (shown after selecting a program) -->
+      <div class="subcat-filter" id="subcatFilter" style="display:none">
+        <label id="subcatLabel">Filter</label>
+        <div class="subcat-chips" id="subcatChips"></div>
+      </div>
+
+      <!-- Course Cards Grid -->
+      <div class="course-cards-grid" id="courseCardsGrid">
+        <div class="no-courses-msg">No courses yet. Create one!</div>
+      </div>
+
+      <!-- Course Actions -->
+      <div class="course-actions">
+        <button class="btn-add-course" id="btnNewCourse">+ New Course</button>
+        <button class="btn-save-course" id="btnSaveCourse" style="display:none">💾 Save Course</button>
+      </div>
+
+      <!-- Course Selector (Hidden) -->
+      <div class="course-selector" style="display:none">
+        <label>Select Course</label>
+        <select id="courseSelect">
+          <option value="">-- Choose Course --</option>
+        </select>
+      </div>
+
+      <!-- Nav -->
+      <nav class="alms-nav">
+        <a href="#" class="alms-nav-item active" data-tab="topics">📚 Topics & Lessons</a>
+        <a href="#" class="alms-nav-item" data-tab="assignments">📝 Assignments</a>
+        <a href="#" class="alms-nav-item" data-tab="quizzes">🧠 Quizzes</a>
+        <a href="#" class="alms-nav-item" data-tab="projects">🚀 Projects</a>
+        <a href="#" class="alms-nav-item" data-tab="resources">📎 Resources</a>
+      </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="alms-main">
+
+      <!-- No course selected -->
+      <div class="no-course" id="noCourse">
+        <div class="no-course-icon">📚</div>
+        <h2>Select or Create a Course</h2>
+        <p>Choose a course from the sidebar or create a new one to start adding content.</p>
+        <button class="btn-primary" id="btnNewCourse2">+ Create New Course</button>
+      </div>
+
+      <!-- TOPICS & LESSONS TAB -->
+      <div class="alms-tab" id="tab-topics" style="display:none">
+        <div class="tab-header">
+          <h2>📚 Topics & Lessons</h2>
+          <div class="tab-header-actions">
+            <button class="btn-ai-tab" id="btnAIGenerateCourse">✨ AI Generate</button>
+            <button class="btn-add" id="btnAddTopic">+ Add Topic</button>
+          </div>
+        </div>
+
+        <!-- Add Topic Form -->
+        <div class="form-card" id="topicForm" style="display:none">
+          <h3>New Topic</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Topic Title</label>
+              <input type="text" id="topicTitle" placeholder="e.g. Module 1: Introduction to LLMs"/>
+            </div>
+            <div class="form-group">
+              <label>Order</label>
+              <input type="number" id="topicOrder" placeholder="1" min="1"/>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" id="saveTopicBtn">Save Topic</button>
+            <button class="btn-cancel" onclick="document.getElementById('topicForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Topics List -->
+        <div id="topicsList"></div>
+      </div>
+
+      <!-- ASSIGNMENTS TAB -->
+      <div class="alms-tab" id="tab-assignments" style="display:none">
+        <div class="tab-header">
+          <h2>📝 Assignments</h2>
+          <button class="btn-add" id="btnAddAssignment">+ Add Assignment</button>
+        </div>
+        <div class="form-card" id="assignmentForm" style="display:none">
+          <h3>New Assignment</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="assignTitle" placeholder="Assignment title"/>
+            </div>
+            <div class="form-group">
+              <label>Due (Days from enrollment)</label>
+              <input type="number" id="assignDue" placeholder="7"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="assignDesc" placeholder="Describe the assignment task..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>Max Marks</label>
+            <input type="number" id="assignMarks" placeholder="100"/>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" id="saveAssignBtn">Save Assignment</button>
+            <button class="btn-cancel" onclick="document.getElementById('assignmentForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+        <div id="assignmentsList"></div>
+      </div>
+
+      <!-- QUIZZES TAB -->
+      <div class="alms-tab" id="tab-quizzes" style="display:none">
+        <div class="tab-header">
+          <h2>🧠 Quizzes</h2>
+          <button class="btn-add" id="btnAddQuiz">+ Add Quiz</button>
+        </div>
+        <div class="form-card" id="quizForm" style="display:none">
+          <h3>New Quiz</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Quiz Title</label>
+              <input type="text" id="quizTitle" placeholder="e.g. LLM Fundamentals Quiz"/>
+            </div>
+            <div class="form-group">
+              <label>Time Limit (mins)</label>
+              <input type="number" id="quizTime" placeholder="30"/>
+            </div>
+          </div>
+          <div id="quizQuestions">
+            <div class="question-block" id="q-0">
+              <div class="form-group">
+                <label>Question 1</label>
+                <input type="text" class="q-text" placeholder="Enter question..."/>
+              </div>
+              <div class="options-grid">
+                <input type="text" class="q-opt" placeholder="Option A"/>
+                <input type="text" class="q-opt" placeholder="Option B"/>
+                <input type="text" class="q-opt" placeholder="Option C"/>
+                <input type="text" class="q-opt" placeholder="Option D"/>
+              </div>
+              <div class="form-group">
+                <label>Correct Answer</label>
+                <select class="q-answer">
+                  <option>A</option><option>B</option><option>C</option><option>D</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <button class="btn-ghost-add" id="addQuestionBtn">+ Add Question</button>
+          <div class="form-actions">
+            <button class="btn-save" id="saveQuizBtn">Save Quiz</button>
+            <button class="btn-cancel" onclick="document.getElementById('quizForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+        <div id="quizzesList"></div>
+      </div>
+
+      <!-- PROJECTS TAB -->
+      <div class="alms-tab" id="tab-projects" style="display:none">
+        <div class="tab-header">
+          <h2>🚀 Projects</h2>
+          <button class="btn-add" id="btnAddProject">+ Add Project</button>
+        </div>
+        <div class="form-card" id="projectForm" style="display:none">
+          <h3>New Project</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Project Title</label>
+              <input type="text" id="projectTitle" placeholder="e.g. Build a RAG Chatbot"/>
+            </div>
+            <div class="form-group">
+              <label>Difficulty</label>
+              <select id="projectDiff">
+                <option>Beginner</option>
+                <option>Intermediate</option>
+                <option>Advanced</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <textarea id="projectDesc" placeholder="Describe the project requirements..."></textarea>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Tech Stack</label>
+              <input type="text" id="projectStack" placeholder="Python, LangChain, OpenAI"/>
+            </div>
+            <div class="form-group">
+              <label>Duration (Days)</label>
+              <input type="number" id="projectDays" placeholder="14"/>
+            </div>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" id="saveProjectBtn">Save Project</button>
+            <button class="btn-cancel" onclick="document.getElementById('projectForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+        <div id="projectsList"></div>
+      </div>
+
+      <!-- RESOURCES TAB -->
+      <div class="alms-tab" id="tab-resources" style="display:none">
+        <div class="tab-header">
+          <h2>📎 Resources</h2>
+          <button class="btn-add" id="btnAddResource">+ Add Resource</button>
+        </div>
+        <div class="form-card" id="resourceForm" style="display:none">
+          <h3>New Resource</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Title</label>
+              <input type="text" id="resourceTitle" placeholder="Resource title"/>
+            </div>
+            <div class="form-group">
+              <label>Type</label>
+              <select id="resourceType">
+                <option>PDF</option>
+                <option>Video</option>
+                <option>Link</option>
+                <option>GitHub</option>
+                <option>Notebook</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>URL / Link</label>
+            <input type="url" id="resourceUrl" placeholder="https://..."/>
+          </div>
+          <div class="form-actions">
+            <button class="btn-save" id="saveResourceBtn">Save Resource</button>
+            <button class="btn-cancel" onclick="document.getElementById('resourceForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+        <div id="resourcesList"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- Add / Edit Lesson Modal -->
+  <div class="modal-overlay" id="lessonModal">
+    <div class="modal-box" style="max-width:640px">
+      <button class="modal-close" id="closeLessonModal">&times;</button>
+      <div class="modal-header">
+        <h2><span id="lessonModalTitle">Add Lesson to</span> <span class="gradient-text" id="lessonTopicName"></span></h2>
+      </div>
+      <div class="form-group">
+        <label>Lesson Title</label>
+        <input type="text" id="lessonTitle" placeholder="e.g. Introduction to Transformers"/>
+      </div>
+      <div class="form-group">
+        <label>Video URL (optional)</label>
+        <input type="url" id="lessonVideo" placeholder="https://youtube.com/..."/>
+      </div>
+      <div class="form-group">
+        <div class="content-mode-row">
+          <label>Content / Notes</label>
+          <div class="content-mode-toggle">
+            <button type="button" class="mode-btn active" id="modeHtml" onclick="switchContentMode('html')">⌨️ HTML</button>
+            <button type="button" class="mode-btn" id="modeText" onclick="switchContentMode('text')">📝 Plain Text</button>
+          </div>
+        </div>
+        <div id="contentHtmlArea">
+          <textarea id="lessonContent" placeholder="Paste or type HTML content — &lt;h2&gt;, &lt;p&gt;, &lt;pre&gt;&lt;code&gt;, &lt;ul&gt;, callout divs etc." style="min-height:220px;font-family:monospace;font-size:0.82rem;line-height:1.6"></textarea>
+          <span class="field-hint">Raw HTML — renders in the LMS lesson view.</span>
+        </div>
+        <div id="contentTextArea" style="display:none">
+          <textarea id="lessonContentText" placeholder="Paste plain text here — paragraphs, bullet points, anything. It will be auto-converted to HTML when saved." style="min-height:220px;font-size:0.88rem;line-height:1.7"></textarea>
+          <span class="field-hint">Plain text — each blank line becomes a new paragraph. Lines starting with • or - become list items.</span>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Duration (mins)</label>
+          <input type="number" id="lessonDuration" placeholder="30"/>
+        </div>
+        <div class="form-group">
+          <label>Type</label>
+          <select id="lessonType">
+            <option>Video</option>
+            <option>Reading</option>
+            <option>Live Session</option>
+            <option>Lab</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" id="saveLessonBtn">Save Lesson</button>
+        <button class="btn-cancel" id="cancelLessonBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New Course Modal -->
+  <div class="modal-overlay" id="courseModal">
+    <div class="modal-box" style="max-width:440px">
+      <button class="modal-close" id="closeCourseModal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-icon">📚</div>
+        <h2>Create New Course</h2>
+      </div>
+      <div class="form-group">
+        <label>Course Name</label>
+        <input type="text" id="newCourseName" placeholder="e.g. Professional Generative AI Engineer"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="newCourseCategory">
+            <option>Generative AI</option>
+            <option>Agentic AI</option>
+            <option>Data Science</option>
+            <option>Industry AI</option>
+            <option>LLM</option>
+            <option>RAG</option>
+            <option>MCP</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Duration</label>
+          <input type="text" id="newCourseDuration" placeholder="6 Months"/>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" id="saveCourseBtn">Create Course</button>
+        <button class="btn-ai-gen" id="btnAIGenerate">✨ Generate with AI</button>
+        <button class="btn-cancel" id="cancelCourseBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AI LESSONS PROMPT MODAL ===== -->
+  <div class="modal-overlay" id="aiLessonsPromptModal">
+    <div class="modal-box ai-prompt-box">
+      <button class="modal-close" id="closeAILessonsPromptModal">&times;</button>
+      <div class="ai-prompt-header">
+        <div class="ai-prompt-icon">✨</div>
+        <h2>AI Lesson Generator</h2>
+        <p id="aiLessonsModuleName" class="ai-prompt-course-name"></p>
+      </div>
+      <div class="form-group">
+        <label>📝 Lesson Instructions</label>
+        <textarea id="aiLessonsPromptText" rows="4"
+          placeholder="e.g. 6 lessons, mix of video and hands-on labs, beginner friendly, cover setup, core concepts, and a practical project. Each lesson ~30 mins."></textarea>
+        <span class="field-hint">Describe how many lessons, types, depth, duration, focus areas.</span>
+      </div>
+      <div class="prompt-chips">
+        <button class="prompt-chip" onclick="appendLessonChip('4 lessons, mix of video and lab')">4 Lessons · Video + Lab</button>
+        <button class="prompt-chip" onclick="appendLessonChip('6 lessons, 30 mins each')">6 Lessons · 30 min each</button>
+        <button class="prompt-chip" onclick="appendLessonChip('beginner friendly, step by step')">Beginner Friendly</button>
+        <button class="prompt-chip" onclick="appendLessonChip('hands-on labs and real examples')">Hands-on Labs</button>
+        <button class="prompt-chip" onclick="appendLessonChip('include a live session at the end')">Live Session</button>
+      </div>
+      <div class="form-actions" style="margin-top:20px">
+        <button class="btn-ai-gen" id="btnRunAILessons">✨ Generate Lessons</button>
+        <button class="btn-cancel" id="cancelAILessonsBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LESSON PREVIEW MODAL ===== -->
+  <div class="modal-overlay" id="lessonPreviewModal">
+    <div class="modal-box" style="max-width:520px">
+      <button class="modal-close" id="closeLessonPreviewModal">&times;</button>
+      <div class="modal-header">
+        <h2>👁 Lesson Preview</h2>
+      </div>
+      <div id="lessonPreviewBody"></div>
+    </div>
+  </div>
+  <div class="modal-overlay" id="aiPromptModal">
+    <div class="modal-box ai-prompt-box">
+      <button class="modal-close" id="closeAIPromptModal">&times;</button>
+      <div class="ai-prompt-header">
+        <div class="ai-prompt-icon">✨</div>
+        <h2>AI Course Generator</h2>
+        <p id="aiPromptCourseName" class="ai-prompt-course-name"></p>
+      </div>
+
+      <!-- Prompt Instructions -->
+      <div class="form-group">
+        <label>📝 Course Instructions</label>
+        <textarea id="aiPromptText" rows="5"
+          placeholder="e.g. 1 month course, 6 hrs per week, weekly modules. Cover: intro to agents, tool use, LangGraph, CrewAI, cloud deployment. Include hands-on labs each week. Target: working professionals."></textarea>
+        <span class="field-hint">Describe duration, weekly hours, topics to cover, audience, highlights — the more detail, the better.</span>
+      </div>
+
+      <!-- Quick chips -->
+      <div class="prompt-chips">
+        <button class="prompt-chip" onclick="appendChip('1 month course, 4 hrs/week')">1 Month · 4 hrs/wk</button>
+        <button class="prompt-chip" onclick="appendChip('6 week course, 6 hrs/week')">6 Weeks · 6 hrs/wk</button>
+        <button class="prompt-chip" onclick="appendChip('3 month professional program, 8 hrs/week')">3 Months · 8 hrs/wk</button>
+        <button class="prompt-chip" onclick="appendChip('hands-on labs every module')">Hands-on Labs</button>
+        <button class="prompt-chip" onclick="appendChip('beginner friendly, no prior experience needed')">Beginner Friendly</button>
+        <button class="prompt-chip" onclick="appendChip('working professionals target audience')">Professionals</button>
+      </div>
+
+      <div class="form-actions" style="margin-top:20px">
+        <button class="btn-ai-gen" id="btnRunAIGenerate">✨ Generate Modules</button>
+        <button class="btn-cancel" id="cancelAIPromptBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== AI MODULES MODAL (Step 2 — Review Modules + Generate Lessons) ===== -->
+  <div class="modal-overlay" id="aiModulesModal">
+    <div class="modal-box ai-modules-box">
+      <button class="modal-close" id="closeAIModulesModal">&times;</button>
+
+      <!-- Generating spinner -->
+      <div id="aiModulesLoading" style="display:none">
+        <div class="ai-generating">
+          <div class="ai-spinner"></div>
+          <h2 id="aiLoadingTitle">✨ Generating modules...</h2>
+          <p id="aiLoadingStatus">Calling Groq AI — this takes a few seconds...</p>
+        </div>
+      </div>
+
+      <!-- Modules result -->
+      <div id="aiModulesResult" style="display:none">
+        <div class="ai-modules-header">
+          <div>
+            <h2>📚 Generated Modules</h2>
+            <p id="aiModulesCourseLabel" class="ai-prompt-course-name"></p>
+          </div>
+          <div class="ai-modules-header-actions">
+            <button class="btn-ai-tab" id="btnSaveModules">💾 Save All to Course</button>
+            <button class="btn-regenerate" id="btnRegenModules">🔄 Regenerate</button>
+          </div>
+        </div>
+        <div id="aiModulesList"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SAVE TOAST -->
+  <div class="save-toast" id="saveToast">
+    <span class="toast-icon">✅</span>
+    <div>
+      <strong>Course Saved!</strong>
+      <p id="toastMsg">All changes have been saved successfully.</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: false, theme: 'dark' });</script>
+  <script src="course-data.js"></script>
+  <script src="admin-lms.js"></script>
+</body>
+</html>

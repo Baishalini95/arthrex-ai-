@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Curriculum — Arthrex AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="curriculum.css"/>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Arthrex<span>AI</span></div>
+    </div>
+    <div class="topbar-right">
+      <a href="index.html" class="btn-back">← Dashboard</a>
+      <div class="user-avatar" id="userInitials">U</div>
+    </div>
+  </header>
+
+  <div class="curriculum-layout">
+
+    <!-- LEFT: Module List -->
+    <aside class="module-sidebar">
+      <div class="module-course-title" id="sidebarCourseTitle">Course</div>
+      <div class="module-progress-wrap">
+        <div class="module-progress-bar"><div class="module-progress-fill" id="overallProgress" style="width:0%"></div></div>
+        <span id="progressLabel">0% Complete</span>
+      </div>
+      <div class="module-list" id="moduleList"></div>
+    </aside>
+
+    <!-- RIGHT: Lesson Content -->
+    <main class="lesson-content">
+      <div class="lesson-header">
+        <div class="lesson-breadcrumb" id="lessonBreadcrumb">Select a lesson to begin</div>
+        <h1 class="lesson-title" id="lessonTitle">Welcome to your course!</h1>
+      </div>
+
+      <div class="lesson-video" id="lessonVideo">
+        <div class="video-placeholder">
+          <span>▶</span>
+          <p id="videoLabel">Select a lesson to start watching</p>
+        </div>
+      </div>
+
+      <div class="lesson-body" id="lessonBody">
+        <p>Click any lesson from the left panel to begin learning.</p>
+      </div>
+
+      <div class="lesson-nav">
+        <button class="btn-lesson-nav" id="prevLesson">← Previous</button>
+        <button class="btn-lesson-nav primary" id="nextLesson">Next →</button>
+      </div>
+    </main>
+
+  </div>
+
+  <script src="curriculum.js"></script>
+</body>
+</html>

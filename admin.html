@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel — Arthrex AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="admin.css"/>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Arthrex<span>AI</span> <span class="admin-badge">Admin</span></div>
+    </div>
+    <div class="topbar-right">
+      <a href="admin-lms.html" class="btn-back" style="background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;border:none">📚 LMS Admin</a>
+      <a href="index.html" class="btn-back">← Dashboard</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar">
+      <div class="admin-nav-label">Admin Menu</div>
+      <a href="#" class="admin-nav-item active" data-panel="enrollments">📋 Enrollments</a>
+      <a href="#" class="admin-nav-item" data-panel="approved">✅ Approved</a>
+      <a href="#" class="admin-nav-item" data-panel="rejected">❌ Rejected</a>
+      <a href="#" class="admin-nav-item" data-panel="masterclasses">🎓 Masterclasses</a>
+      <a href="#" class="admin-nav-item" data-panel="liveclasses">🔴 Live Classes</a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- ENROLLMENTS PANEL -->
+      <div class="admin-panel active" id="panel-enrollments">
+        <div class="admin-panel-header">
+          <h2>📋 Pending Enrollments</h2>
+          <span class="count-badge" id="pendingCount">0</span>
+        </div>
+        <div class="enrollments-table" id="pendingList">
+          <div class="empty-state">No pending enrollments yet.</div>
+        </div>
+      </div>
+
+      <!-- APPROVED PANEL -->
+      <div class="admin-panel" id="panel-approved">
+        <div class="admin-panel-header">
+          <h2>✅ Approved Enrollments</h2>
+          <span class="count-badge approved-count" id="approvedCount">0</span>
+        </div>
+        <div class="enrollments-table" id="approvedList">
+          <div class="empty-state">No approved enrollments yet.</div>
+        </div>
+      </div>
+
+      <!-- REJECTED PANEL -->
+      <div class="admin-panel" id="panel-rejected">
+        <div class="admin-panel-header">
+          <h2>❌ Rejected Enrollments</h2>
+          <span class="count-badge rejected-count" id="rejectedCount">0</span>
+        </div>
+        <div class="enrollments-table" id="rejectedList">
+          <div class="empty-state">No rejected enrollments yet.</div>
+        </div>
+      </div>
+
+      <!-- MASTERCLASSES PANEL -->
+      <div class="admin-panel" id="panel-masterclasses">
+        <div class="admin-panel-header">
+          <h2>🎓 Free Masterclasses</h2>
+          <button class="btn-add-mc" id="btnAddMasterclass">+ Create Masterclass</button>
+        </div>
+
+        <!-- Create form -->
+        <div class="mc-form-card" id="mcForm" style="display:none">
+          <h3>New Masterclass</h3>
+          <div class="mc-form-grid">
+            <div class="mc-form-group">
+              <label>Title</label>
+              <input type="text" id="mcTitle" placeholder="e.g. Intro to Agentic AI"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Category / Tag</label>
+              <input type="text" id="mcTag" placeholder="e.g. AI & ML"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Description</label>
+              <input type="text" id="mcDesc" placeholder="Short description..."/>
+            </div>
+            <div class="mc-form-group">
+              <label>Duration</label>
+              <input type="text" id="mcDuration" placeholder="e.g. 2 hrs"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Instructor</label>
+              <input type="text" id="mcInstructor" placeholder="Instructor name"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Scheduled Date & Time</label>
+              <input type="datetime-local" id="mcSchedule"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Join Link (optional)</label>
+              <input type="url" id="mcLink" placeholder="https://meet.google.com/..."/>
+            </div>
+            <div class="mc-form-group">
+              <label>Rating</label>
+              <input type="number" id="mcRating" placeholder="4.9" min="1" max="5" step="0.1"/>
+            </div>
+          </div>
+          <div class="mc-form-actions">
+            <button class="btn-save-mc" id="btnSaveMc">💾 Save Masterclass</button>
+            <button class="btn-cancel-mc" onclick="document.getElementById('mcForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+
+        <!-- Analytics Overview -->
+        <div class="mc-analytics-bar" id="mcAnalyticsBar"></div>
+
+        <!-- Masterclass list with registrations -->
+        <div id="mcList"></div>
+
+        <!-- Registrations detail panel -->
+        <div class="mc-reg-panel" id="mcRegPanel" style="display:none">
+          <div class="mc-reg-panel-header">
+            <div>
+              <h3 id="mcRegPanelTitle">Registrations</h3>
+              <span class="mc-reg-count" id="mcRegPanelCount"></span>
+            </div>
+            <div class="mc-reg-panel-actions">
+              <button class="btn-export-excel" id="btnExportExcel">📥 Export Excel</button>
+              <button class="btn-close-reg" onclick="document.getElementById('mcRegPanel').style.display='none'">✕ Close</button>
+            </div>
+          </div>
+
+          <!-- Chart -->
+          <div class="mc-chart-section">
+            <div class="mc-chart-box">
+              <div class="mc-chart-label">📈 Registrations Over Time</div>
+              <svg id="mcRegChart" class="mc-reg-chart" viewBox="0 0 500 100" preserveAspectRatio="none"></svg>
+              <div class="mc-chart-x-labels" id="mcChartXLabels"></div>
+            </div>
+            <div class="mc-stat-boxes" id="mcStatBoxes"></div>
+          </div>
+
+          <!-- Registrations table -->
+          <div class="mc-reg-table-wrap">
+            <div class="mc-reg-table-head">
+              <span>Name</span>
+              <span>Email</span>
+              <span>Phone</span>
+              <span>Registered At</span>
+            </div>
+            <div id="mcRegTableBody"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE CLASSES PANEL -->
+      <div class="admin-panel" id="panel-liveclasses">
+        <div class="admin-panel-header">
+          <h2>🔴 Live Classes</h2>
+          <button class="btn-add-mc" id="btnAddLiveClass">+ Add Live Class</button>
+        </div>
+
+        <!-- Create form -->
+        <div class="mc-form-card" id="lcForm" style="display:none">
+          <h3>🔴 New Live Class Announcement</h3>
+          <div class="mc-form-grid">
+            <div class="mc-form-group" style="grid-column:1/-1">
+              <label>Title</label>
+              <input type="text" id="lcTitle" placeholder="e.g. AWS Bedrock Deep Dive — Live Session"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Category / Tag</label>
+              <input type="text" id="lcTag" placeholder="e.g. Cloud AI"/>
+            </div>
+            <div class="mc-form-group">
+              <label>Instructor</label>
+              <input type="text" id="lcInstructor" placeholder="Instructor name"/>
+            </div>
+            <div class="mc-form-group" style="grid-column:1/-1">
+              <label>Description</label>
+              <input type="text" id="lcDesc" placeholder="What will be covered in this session..."/>
+            </div>
+            <div class="mc-form-group">
+              <label>📅 Date</label>
+              <input type="date" id="lcDate"/>
+            </div>
+            <div class="mc-form-group">
+              <label>🕐 Start Time</label>
+              <input type="time" id="lcStartTime"/>
+            </div>
+            <div class="mc-form-group">
+              <label>🕔 End Time</label>
+              <input type="time" id="lcEndTime"/>
+            </div>
+            <div class="mc-form-group">
+              <label>⏱ Duration</label>
+              <input type="text" id="lcDuration" placeholder="e.g. 2 hrs"/>
+            </div>
+            <div class="mc-form-group">
+              <label>🔗 Join Link</label>
+              <input type="url" id="lcLink" placeholder="https://meet.google.com/..."/>
+            </div>
+            <div class="mc-form-group">
+              <label>🖼 Thumbnail Image URL (optional)</label>
+              <input type="url" id="lcThumb" placeholder="https://images.unsplash.com/..."/>
+            </div>
+          </div>
+          <div class="mc-form-actions">
+            <button class="btn-save-mc" id="btnSaveLc">📢 Announce Live Class</button>
+            <button class="btn-cancel-mc" onclick="document.getElementById('lcForm').style.display='none'">Cancel</button>
+          </div>
+        </div>
+
+        <!-- List -->
+        <div id="lcList"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="admin.js"></script>
+</body>
+</html>

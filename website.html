@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Arthrex AI — #1 AI Skills Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="website.css"/>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="ws-nav">
+    <div class="ws-nav-inner">
+      <div class="ws-logo">Arthrex<span>AI</span></div>
+      <div class="ws-nav-links">
+        <a href="#programs">Programs</a>
+        <a href="#why">Why Us</a>
+        <a href="#outcomes">Outcomes</a>
+        <a href="#testimonials">Reviews</a>
+        <a href="#faq">FAQ</a>
+      </div>
+      <div class="ws-nav-cta">
+        <a href="index.html" class="ws-btn-ghost">Dashboard →</a>
+        <a href="#programs" class="ws-btn-primary">Explore Programs</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="ws-hero">
+    <div class="ws-hero-bg">
+      <div class="ws-orb ws-orb-1"></div>
+      <div class="ws-orb ws-orb-2"></div>
+      <div class="ws-orb ws-orb-3"></div>
+      <div class="ws-grid-lines"></div>
+    </div>
+    <div class="ws-hero-inner">
+      <div class="ws-hero-badge">🏆 India's #1 AI Skills Platform · 50,000+ Learners</div>
+      <h1 class="ws-hero-title">
+        Master <span class="ws-grad">Artificial Intelligence</span><br/>
+        Build the Future. Get Hired.
+      </h1>
+      <p class="ws-hero-sub">
+        Industry-led AI programs in Generative AI, Agentic AI, Data Science & more.<br/>
+        Learn from practitioners. Build real projects. Land top AI roles.
+      </p>
+      <div class="ws-hero-actions">
+        <a href="#programs" class="ws-btn-primary ws-btn-lg">🚀 Explore Programs</a>
+        <a href="index.html" class="ws-btn-outline ws-btn-lg">Go to Dashboard →</a>
+      </div>
+      <div class="ws-hero-stats">
+        <div class="ws-hstat"><strong>50K+</strong><span>Learners</span></div>
+        <div class="ws-hstat-div"></div>
+        <div class="ws-hstat"><strong>120+</strong><span>AI Courses</span></div>
+        <div class="ws-hstat-div"></div>
+        <div class="ws-hstat"><strong>4.9★</strong><span>Avg Rating</span></div>
+        <div class="ws-hstat-div"></div>
+        <div class="ws-hstat"><strong>95%</strong><span>Placement Rate</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUSTED BY -->
+  <section class="ws-trusted">
+    <p class="ws-trusted-label">Trusted by learners from</p>
+    <div class="ws-trusted-logos">
+      <span>Google</span><span>Microsoft</span><span>Amazon</span><span>Infosys</span>
+      <span>TCS</span><span>Wipro</span><span>Accenture</span><span>IBM</span>
+      <span>Deloitte</span><span>Cognizant</span>
+    </div>
+  </section>
+
+  <!-- WHY ARTHREX AI -->
+  <section class="ws-section" id="why">
+    <div class="ws-section-inner">
+      <div class="ws-section-label">Why Arthrex AI</div>
+      <h2 class="ws-section-title">Not just courses. A career transformation.</h2>
+      <p class="ws-section-sub">We combine cutting-edge curriculum, live mentorship, and real-world projects to make you job-ready in AI.</p>
+      <div class="ws-why-grid">
+        <div class="ws-why-card">
+          <div class="ws-why-icon">🧠</div>
+          <h3>Industry-Led Curriculum</h3>
+          <p>Built with AI practitioners from top tech companies. Updated every quarter to stay ahead of the curve.</p>
+        </div>
+        <div class="ws-why-card">
+          <div class="ws-why-icon">🔴</div>
+          <h3>Live Mentorship Sessions</h3>
+          <p>Weekly live classes with Q&A, code reviews, and 1:1 doubt sessions with working AI engineers.</p>
+        </div>
+        <div class="ws-why-card">
+          <div class="ws-why-icon">🚀</div>
+          <h3>Hands-On Projects</h3>
+          <p>Build 10+ production-grade AI projects — RAG pipelines, AI agents, LLM apps — for your portfolio.</p>
+        </div>
+        <div class="ws-why-card">
+          <div class="ws-why-icon">🎖️</div>
+          <h3>Verified Certificates</h3>
+          <p>Industry-recognized certificates that stand out on LinkedIn and in job applications.</p>
+        </div>
+        <div class="ws-why-card">
+          <div class="ws-why-icon">🤝</div>
+          <h3>Career Support</h3>
+          <p>Resume reviews, mock interviews, LinkedIn optimization, and direct referrals to hiring partners.</p>
+        </div>
+        <div class="ws-why-card">
+          <div class="ws-why-icon">♾️</div>
+          <h3>Lifetime Access</h3>
+          <p>All course content, updates, and community access — forever. No subscriptions, no expiry.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROGRAMS -->
+  <section class="ws-section ws-section-dark" id="programs">
+    <div class="ws-section-inner">
+      <div class="ws-section-label">AI Programs</div>
+      <h2 class="ws-section-title">Find your path in AI</h2>
+      <p class="ws-section-sub">From free masterclasses to 6-month professional programs — there's a track for every stage.</p>
+
+      <div class="ws-prog-tabs">
+        <button class="ws-prog-tab active" onclick="filterProg(this,'all')">All</button>
+        <button class="ws-prog-tab" onclick="filterProg(this,'genai')">Generative AI</button>
+        <button class="ws-prog-tab" onclick="filterProg(this,'agentic')">Agentic AI</button>
+        <button class="ws-prog-tab" onclick="filterProg(this,'data')">Data Science</button>
+        <button class="ws-prog-tab" onclick="filterProg(this,'free')">Free</button>
+      </div>
+
+      <div class="ws-prog-grid" id="wsProgGrid">
+
+        <div class="ws-prog-card" data-cat="genai">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">✨</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Generative AI</span>
+            <span class="ws-prog-badge flagship">Flagship</span>
+            <h3>Professional Generative AI Engineer</h3>
+            <p>Master LLMs, RAG, prompt engineering, fine-tuning, and production AI deployment.</p>
+            <div class="ws-prog-meta"><span>📅 6 Months</span><span>⭐ 4.9</span><span>👥 20K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="agentic">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#ef4444,#f97316)">🤖</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Agentic AI</span>
+            <span class="ws-prog-badge">Professional</span>
+            <h3>Professional Agentic AI Engineer</h3>
+            <p>Build autonomous AI agents with LangGraph, CrewAI, AWS Bedrock, and Azure AutoGen.</p>
+            <div class="ws-prog-meta"><span>📅 6 Months</span><span>⭐ 5.0</span><span>👥 12K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="data">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🔬</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Data Science</span>
+            <span class="ws-prog-badge">Professional</span>
+            <h3>AI-Powered Data Science Professional</h3>
+            <p>Python, ML, deep learning, NLP, and AI-driven analytics for real-world business problems.</p>
+            <div class="ws-prog-meta"><span>📅 5 Months</span><span>⭐ 4.9</span><span>👥 15K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="genai">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🔗</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Generative AI</span>
+            <h3>Build Intelligent RAG Systems</h3>
+            <p>Embeddings, vector databases, semantic search, and enterprise knowledge retrieval.</p>
+            <div class="ws-prog-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.9</span><span>👥 14K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="agentic">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">☁️</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Agentic AI</span>
+            <h3>AWS Bedrock Agents</h3>
+            <p>Build autonomous AI agents on AWS using Bedrock foundation models and tools.</p>
+            <div class="ws-prog-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 10K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="free">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">🎓</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag free-tag">FREE</span>
+            <h3>Free AI Masterclasses</h3>
+            <p>Live sessions on LLMs, Agentic AI, RAG, MCP and more — completely free.</p>
+            <div class="ws-prog-meta"><span>🔴 Live</span><span>⭐ 4.8</span><span>👥 30K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Register Free →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="genai">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">🔌</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Generative AI</span>
+            <h3>MCP & AI Agent Systems</h3>
+            <p>Model Context Protocol, tool calling, API integrations, and context-aware AI.</p>
+            <div class="ws-prog-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.9</span><span>👥 7K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+        <div class="ws-prog-card" data-cat="data">
+          <div class="ws-prog-thumb" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">🎯</div>
+          <div class="ws-prog-body">
+            <span class="ws-prog-tag">Data Science</span>
+            <h3>LLM Fine-Tuning Engineering</h3>
+            <p>Fine-tune LLMs using LoRA, QLoRA, PEFT & RLHF for domain-specific tasks.</p>
+            <div class="ws-prog-meta"><span>⏱ 6 hrs</span><span>⭐ 4.9</span><span>👥 9K+</span></div>
+            <a href="index.html" class="ws-btn-enroll">Enroll Now →</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- OUTCOMES -->
+  <section class="ws-section" id="outcomes">
+    <div class="ws-section-inner">
+      <div class="ws-section-label">Career Outcomes</div>
+      <h2 class="ws-section-title">Real results. Real careers.</h2>
+      <div class="ws-outcomes-grid">
+        <div class="ws-outcome-card">
+          <div class="ws-outcome-num">95%</div>
+          <div class="ws-outcome-label">Placement Rate</div>
+          <p>of our professional program graduates land AI roles within 3 months</p>
+        </div>
+        <div class="ws-outcome-card">
+          <div class="ws-outcome-num">3.2×</div>
+          <div class="ws-outcome-label">Avg Salary Hike</div>
+          <p>average salary increase reported by our learners after completing programs</p>
+        </div>
+        <div class="ws-outcome-card">
+          <div class="ws-outcome-num">₹18L+</div>
+          <div class="ws-outcome-label">Avg Package</div>
+          <p>average CTC secured by our top graduates at leading AI-first companies</p>
+        </div>
+        <div class="ws-outcome-card">
+          <div class="ws-outcome-num">200+</div>
+          <div class="ws-outcome-label">Hiring Partners</div>
+          <p>companies actively hiring from the Arthrex AI talent network</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="ws-section ws-section-dark" id="testimonials">
+    <div class="ws-section-inner">
+      <div class="ws-section-label">Student Reviews</div>
+      <h2 class="ws-section-title">What our learners say</h2>
+      <div class="ws-testi-grid">
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"The Agentic AI program completely changed my career. I went from a backend dev to an AI engineer at a top startup in 4 months."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">RK</div>
+            <div><strong>Rahul Kumar</strong><span>AI Engineer · Bangalore</span></div>
+          </div>
+        </div>
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"Best investment I've made. The RAG and LLM courses are incredibly practical. I built 3 production apps during the program."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">PS</div>
+            <div><strong>Priya Sharma</strong><span>ML Engineer · Hyderabad</span></div>
+          </div>
+        </div>
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"The live sessions and mentorship are top-notch. Got placed at Microsoft with a 4× salary hike after completing the GenAI program."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">AM</div>
+            <div><strong>Arjun Mehta</strong><span>Senior AI Engineer · Microsoft</span></div>
+          </div>
+        </div>
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"Free masterclasses alone are worth it. The quality is better than paid courses elsewhere. Enrolled in the professional program after."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">SN</div>
+            <div><strong>Sneha Nair</strong><span>Data Scientist · Mumbai</span></div>
+          </div>
+        </div>
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"The AWS Bedrock and MCP courses are exactly what the industry needs. Highly practical, no fluff. My team at TCS loved the projects."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#0ea5e9,#2563eb)">VR</div>
+            <div><strong>Vikram Rao</strong><span>Cloud AI Architect · TCS</span></div>
+          </div>
+        </div>
+
+        <div class="ws-testi-card">
+          <div class="ws-testi-stars">★★★★★</div>
+          <p>"Switched from finance to AI at 32. The structured curriculum and career support made it possible. Now earning 2.5× my previous salary."</p>
+          <div class="ws-testi-author">
+            <div class="ws-testi-avatar" style="background:linear-gradient(135deg,#10b981,#7c3aed)">DG</div>
+            <div><strong>Divya Gupta</strong><span>AI Product Manager · Pune</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="ws-section" id="faq">
+    <div class="ws-section-inner ws-faq-inner">
+      <div class="ws-section-label">FAQ</div>
+      <h2 class="ws-section-title">Common questions</h2>
+      <div class="ws-faq-list">
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            Do I need prior AI experience to join? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">No. Our programs are designed for all levels — from complete beginners to experienced developers. Each track has a recommended prerequisite guide.</div>
+        </div>
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            Are the programs live or self-paced? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">Both. Professional programs include weekly live sessions + recorded content you can revisit anytime. Short courses are fully self-paced with lifetime access.</div>
+        </div>
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            What certificate do I get? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">You receive a verified Arthrex AI certificate upon completion, shareable on LinkedIn. Professional programs also include a digital badge and transcript.</div>
+        </div>
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            Is there placement assistance? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">Yes. Professional program learners get dedicated career support — resume reviews, mock interviews, LinkedIn profile optimization, and referrals to 200+ hiring partners.</div>
+        </div>
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            Can I pay in installments? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">Yes. We offer 0% EMI options through major banks and payment partners. Contact us for details on your preferred plan.</div>
+        </div>
+        <div class="ws-faq-item">
+          <button class="ws-faq-q" onclick="toggleFaq(this)">
+            Are the free masterclasses really free? <span class="ws-faq-arrow">▾</span>
+          </button>
+          <div class="ws-faq-a">100% free. No credit card required. Just register with your name and email and join the live session. Recordings are available for 7 days after the session.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BANNER -->
+  <section class="ws-cta-banner">
+    <div class="ws-orb ws-orb-cta1"></div>
+    <div class="ws-orb ws-orb-cta2"></div>
+    <div class="ws-cta-inner">
+      <h2>Ready to build your AI career?</h2>
+      <p>Join 50,000+ learners already transforming their careers with Arthrex AI.</p>
+      <div class="ws-cta-actions">
+        <a href="#programs" class="ws-btn-primary ws-btn-lg">🚀 Start Learning Today</a>
+        <a href="index.html" class="ws-btn-outline ws-btn-lg">Go to Dashboard →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="ws-footer">
+    <div class="ws-footer-inner">
+      <div class="ws-footer-brand">
+        <div class="ws-logo">Arthrex<span>AI</span></div>
+        <p>India's leading AI skills platform. Building the next generation of AI engineers, data scientists, and ML practitioners.</p>
+        <div class="ws-footer-social">
+          <a href="https://www.linkedin.com/company/arthrex-ai" target="_blank" title="LinkedIn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </a>
+          <a href="https://www.youtube.com/@arthrex-ai" target="_blank" title="YouTube">
+            <svg width="20" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="ws-footer-col">
+        <h4>Programs</h4>
+        <a href="index.html">Generative AI</a>
+        <a href="index.html">Agentic AI</a>
+        <a href="index.html">Data Science</a>
+        <a href="index.html">Industry AI</a>
+        <a href="index.html">Free Masterclasses</a>
+      </div>
+      <div class="ws-footer-col">
+        <h4>Company</h4>
+        <a href="#">About Us</a>
+        <a href="#">Careers</a>
+        <a href="#">Blog</a>
+        <a href="#">Press</a>
+        <a href="#">B2B Partnerships</a>
+      </div>
+      <div class="ws-footer-col">
+        <h4>Support</h4>
+        <a href="#">Help Center</a>
+        <a href="#">Contact Us</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="index.html">Dashboard</a>
+      </div>
+    </div>
+    <div class="ws-footer-bottom">
+      <span>© 2025 Arthrex AI. All rights reserved.</span>
+      <span>Made with ❤️ for AI learners worldwide</span>
+    </div>
+  </footer>
+
+  <script>
+    // Program filter
+    function filterProg(btn, cat) {
+      document.querySelectorAll('.ws-prog-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.ws-prog-card').forEach(card => {
+        card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none';
+      });
+    }
+
+    // FAQ accordion
+    function toggleFaq(btn) {
+      const item = btn.closest('.ws-faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.ws-faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+      });
+    });
+
+    // Sticky nav shadow on scroll
+    window.addEventListener('scroll', () => {
+      document.querySelector('.ws-nav').classList.toggle('ws-nav-scrolled', window.scrollY > 20);
+    });
+
+    // Animate stats counter
+    function animateCount(el, target, suffix = '') {
+      let start = 0;
+      const step = target / 60;
+      const timer = setInterval(() => {
+        start += step;
+        if (start >= target) { el.textContent = target + suffix; clearInterval(timer); return; }
+        el.textContent = Math.floor(start) + suffix;
+      }, 16);
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('ws-visible');
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.ws-why-card, .ws-prog-card, .ws-testi-card, .ws-outcome-card').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Course — Arthrex AI LMS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="lms.css"/>
+</head>
+<body>
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo">Arthrex<span>AI</span></div>
+      <div class="lms-course-name" id="topCourseTitle"></div>
+    </div>
+    <div class="topbar-right">
+      <a href="#" class="btn-back btn-edit-lms" id="editCourseBtn">✏️ Edit Course</a>
+      <a href="index.html" class="btn-back">← Dashboard</a>
+      <div class="lms-progress-wrap">
+        <div class="lms-progress-bar"><div class="lms-progress-fill" id="topProgress" style="width:0%"></div></div>
+        <span id="topProgressLabel">0%</span>
+      </div>
+      <div class="user-avatar" id="userInitials">U</div>
+    </div>
+  </header>
+
+  <div class="lms-layout">
+
+    <!-- LEFT SIDEBAR -->
+    <aside class="lms-sidebar">
+      <nav class="lms-sidebar-nav">
+        <a href="#" class="lms-nav-item active" data-view="lessons">📚 Lessons</a>
+        <a href="#" class="lms-nav-item" data-view="assignments">📝 Assignments</a>
+        <a href="#" class="lms-nav-item" data-view="quizzes">🧠 Quizzes</a>
+        <a href="#" class="lms-nav-item" data-view="projects">🚀 Projects</a>
+        <a href="#" class="lms-nav-item" data-view="resources">📎 Resources</a>
+      </nav>
+
+      <!-- Module list (shown in lessons view) -->
+      <div id="moduleTree"></div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="lms-main">
+
+      <!-- LESSONS VIEW -->
+      <div class="lms-view active" id="view-lessons">
+        <div class="lesson-header">
+          <div class="lesson-breadcrumb" id="lessonBreadcrumb">Select a lesson</div>
+          <h1 class="lesson-title" id="lessonTitle">Welcome! 👋</h1>
+        </div>
+        <div class="lesson-video-box">
+          <div class="video-placeholder">
+            <span>▶</span>
+            <p id="videoLabel">Select a lesson from the left to begin</p>
+          </div>
+        </div>
+        <div class="lesson-body" id="lessonBody">
+          <p style="color:var(--muted)">Click any lesson from the sidebar to start learning.</p>
+        </div>
+        <div class="lesson-nav-btns">
+          <button class="btn-lesson-nav" id="prevBtn">← Previous</button>
+          <button class="btn-lesson-nav primary" id="nextBtn">Next →</button>
+        </div>
+      </div>
+
+      <!-- ASSIGNMENTS VIEW -->
+      <div class="lms-view" id="view-assignments">
+        <div class="view-header"><h2>📝 Assignments</h2></div>
+        <div id="assignmentsContent"></div>
+      </div>
+
+      <!-- QUIZZES VIEW -->
+      <div class="lms-view" id="view-quizzes">
+        <div class="view-header"><h2>🧠 Quizzes</h2></div>
+        <div id="quizzesContent"></div>
+      </div>
+
+      <!-- PROJECTS VIEW -->
+      <div class="lms-view" id="view-projects">
+        <div class="view-header"><h2>🚀 Projects</h2></div>
+        <div id="projectsContent"></div>
+      </div>
+
+      <!-- RESOURCES VIEW -->
+      <div class="lms-view" id="view-resources">
+        <div class="view-header"><h2>📎 Resources</h2></div>
+        <div id="resourcesContent"></div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- QUIZ MODAL -->
+  <div class="modal-overlay" id="quizModal">
+    <div class="modal-box" style="max-width:600px;max-height:80vh;overflow-y:auto">
+      <button class="modal-close" id="closeQuizModal">&times;</button>
+      <div class="modal-header">
+        <h2 id="quizModalTitle">Quiz</h2>
+        <p id="quizTimer" class="quiz-timer"></p>
+      </div>
+      <div id="quizQuestionsRender"></div>
+      <div class="form-actions" style="margin-top:20px">
+        <button class="btn-submit" id="submitQuizBtn">Submit Quiz</button>
+      </div>
+      <div id="quizResult" style="display:none"></div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({ startOnLoad: false, theme: 'dark' });</script>
+  <script src="lms.js"></script>
+</body>
+</html>
