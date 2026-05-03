@@ -12,6 +12,7 @@
 
   <header class="topbar">
     <div class="topbar-left">
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu" style="display:none">☰</button>
       <div class="logo">Arthrex<span>AI</span> <span class="admin-badge">Admin</span></div>
     </div>
     <div class="topbar-right">
@@ -226,5 +227,18 @@
   </div>
 
   <script src="admin.js"></script>
+  <script>
+    // Mobile sidebar toggle
+    const hBtn = document.getElementById('hamburgerBtn');
+    const aSidebar = document.querySelector('.admin-sidebar');
+    if (hBtn && aSidebar) {
+      hBtn.addEventListener('click', () => aSidebar.classList.toggle('mobile-open'));
+    }
+    function checkHamburger() {
+      if (hBtn) hBtn.style.display = window.innerWidth <= 768 ? 'flex' : 'none';
+    }
+    checkHamburger();
+    window.addEventListener('resize', checkHamburger);
+  </script>
 </body>
 </html>

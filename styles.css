@@ -1448,3 +1448,173 @@ ul { list-style: none; }
   letter-spacing: 0.01em;
 }
 .btn-website:hover { opacity: 0.88; transform: translateY(-1px); }
+
+/* ============================================================
+   MOBILE RESPONSIVE — Full Coverage
+   Breakpoints: 1024px | 768px | 640px | 480px | 375px
+   ============================================================ */
+
+/* ── 1024px — iPad landscape ─────────────────────────────── */
+@media (max-width: 1024px) {
+  .sidebar { width: 220px; }
+  .main-content { margin-left: 220px; padding: 24px; }
+  .cards-grid { grid-template-columns: repeat(3, 1fr); }
+  .search-bar { width: 240px; }
+}
+
+/* ── 768px — iPad portrait ───────────────────────────────── */
+@media (max-width: 768px) {
+  /* Topbar */
+  .topbar { padding: 0 16px; }
+  .search-bar { display: none; }
+  .topbar-right .social-btn { display: none; }
+
+  /* Sidebar — hidden off-canvas, toggled by hamburger */
+  .sidebar {
+    position: fixed;
+    left: -280px;
+    width: 260px;
+    top: 64px; bottom: 0;
+    z-index: 300;
+    transition: left 0.3s ease;
+    overflow-y: auto;
+  }
+  .sidebar.mobile-open { left: 0; }
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 299;
+    top: 64px;
+  }
+  .sidebar-overlay.active { display: block; }
+
+  /* Show all sidebar labels again (they were hidden at 900px) */
+  .nav-item span:not(.nav-icon),
+  .nav-section-label,
+  .badge,
+  .sidebar-cta { display: flex !important; }
+  .nav-section-label { display: block !important; }
+  .badge { display: inline-flex !important; }
+  .sidebar-cta { display: block !important; }
+
+  /* Hamburger button */
+  .hamburger-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 38px; height: 38px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--card-border);
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    color: var(--text);
+    margin-right: 8px;
+  }
+
+  /* Main content full width */
+  .main-content { margin-left: 0; padding: 20px 16px; }
+
+  /* Cards */
+  .cards-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .live-grid  { grid-template-columns: 1fr; }
+
+  /* Welcome banner */
+  .welcome-banner { flex-direction: column; gap: 20px; }
+  .welcome-stats  { flex-wrap: wrap; gap: 12px; }
+  .stat-box       { flex: 1; min-width: 80px; }
+
+  /* Modals */
+  .modal-box {
+    max-width: calc(100vw - 32px) !important;
+    margin: 16px;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  .ai-modules-box,
+  .ai-prompt-box { max-width: calc(100vw - 32px) !important; }
+}
+
+/* ── 640px — Large phones ────────────────────────────────── */
+@media (max-width: 640px) {
+  /* Topbar */
+  .logo { font-size: 1.1rem; }
+  .topbar-right { gap: 8px; }
+  .btn-login, .btn-logout { font-size: 0.78rem; padding: 6px 10px; }
+
+  /* Cards single column */
+  .cards-grid { grid-template-columns: 1fr; gap: 12px; }
+  .yt-video-grid { grid-template-columns: 1fr; }
+
+  /* Section header */
+  .section-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .filter-tabs { flex-wrap: wrap; gap: 6px; }
+  .filter-btn { font-size: 0.75rem; padding: 5px 10px; }
+
+  /* Welcome */
+  .welcome-text h1 { font-size: 1.5rem; }
+  .welcome-label   { font-size: 0.85rem; }
+  .welcome-sub     { font-size: 0.82rem; }
+
+  /* YouTube chips */
+  .yt-topic-chips { gap: 6px; }
+  .yt-chip { font-size: 0.75rem; padding: 5px 10px; }
+  .yt-search-bar { flex-wrap: wrap; gap: 8px; }
+  .btn-yt-search { width: 100%; }
+
+  /* Main content */
+  .main-content { padding: 16px 12px; }
+
+  /* Subsection header */
+  .subsection-header h3 { font-size: 0.95rem; }
+}
+
+/* ── 480px — Standard phones ─────────────────────────────── */
+@media (max-width: 480px) {
+  :root { --topbar-height: 56px; }
+
+  .topbar { height: 56px; padding: 0 12px; }
+  .logo   { font-size: 1rem; }
+
+  /* Hide avatar initials text on very small screens */
+  .user-avatar { width: 32px; height: 32px; font-size: 0.7rem; }
+
+  /* Cards */
+  .master-card .card-thumb { height: 120px; font-size: 2rem; }
+  .card-body { padding: 14px; }
+  .card-body h3 { font-size: 0.9rem; }
+  .card-body p  { font-size: 0.78rem; }
+  .card-meta    { font-size: 0.72rem; flex-wrap: wrap; gap: 6px; }
+
+  /* Live card */
+  .live-card .live-thumb { height: 160px; }
+  .live-body h3 { font-size: 0.95rem; }
+
+  /* Stat boxes */
+  .stat-box strong { font-size: 1.4rem; }
+  .stat-box span   { font-size: 0.72rem; }
+
+  /* Buttons */
+  .btn-enroll, .btn-primary { font-size: 0.82rem; padding: 9px 16px; }
+
+  /* Modal */
+  .modal-box { padding: 20px 16px !important; }
+  .modal-header h2 { font-size: 1.1rem; }
+
+  /* Section title */
+  .section-header h2 { font-size: 1.1rem; }
+}
+
+/* ── 375px — Small phones (iPhone SE etc.) ───────────────── */
+@media (max-width: 375px) {
+  .topbar-right .yt-btn { display: none; }
+  .cards-grid { gap: 10px; }
+  .main-content { padding: 12px 10px; }
+  .welcome-text h1 { font-size: 1.3rem; }
+  .card-body { padding: 12px; }
+}
+
+/* ── Hamburger button — hidden on desktop ────────────────── */
+.hamburger-btn { display: none; }

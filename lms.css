@@ -636,3 +636,31 @@ body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-s
   border: 1px dashed rgba(255,255,255,0.1);
   border-radius: 12px;
 }
+
+/* ── LMS Mobile ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .lms-layout { flex-direction: column; }
+
+  .lms-sidebar {
+    position: fixed;
+    left: -300px;
+    width: 280px;
+    top: 64px; bottom: 0;
+    z-index: 300;
+    transition: left 0.3s ease;
+  }
+  .lms-sidebar.mobile-open { left: 0; }
+
+  .lms-main { margin-left: 0 !important; }
+  .lesson-content { padding: 20px 16px; }
+
+  .lms-topbar-course { max-width: 160px; font-size: 0.78rem; }
+  .lms-progress-bar  { width: 80px; }
+}
+
+@media (max-width: 480px) {
+  .lesson-content { padding: 16px 12px; }
+  .lesson-content h1 { font-size: 1.2rem; }
+  .lesson-content h2 { font-size: 1rem; }
+  .lesson-content pre { font-size: 0.75rem; overflow-x: auto; }
+}

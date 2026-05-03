@@ -152,3 +152,26 @@ body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-s
 .btn-lesson-nav:hover { background: rgba(255,255,255,0.1); }
 .btn-lesson-nav.primary { background: var(--gradient); color: white; border: none; }
 .btn-lesson-nav.primary:hover { opacity: 0.88; }
+
+/* ── Curriculum Mobile ────────────────────────────────────── */
+@media (max-width: 768px) {
+  .curriculum-layout { flex-direction: column; }
+
+  .module-sidebar {
+    position: fixed;
+    left: -320px;
+    width: 300px;
+    top: 64px; bottom: 0;
+    z-index: 300;
+    transition: left 0.3s ease;
+  }
+  .module-sidebar.mobile-open { left: 0; }
+
+  .curriculum-main { margin-left: 0 !important; padding: 20px 16px; }
+}
+
+@media (max-width: 480px) {
+  .curriculum-main { padding: 16px 12px; }
+  .lesson-blog h2  { font-size: 1rem; }
+  .lesson-blog pre { font-size: 0.75rem; overflow-x: auto; }
+}

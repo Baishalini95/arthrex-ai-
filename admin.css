@@ -408,3 +408,62 @@ body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-s
 }
 .mc-reg-row:last-child { border-bottom: none; }
 .mc-reg-row:hover { background: rgba(255,255,255,0.03); }
+
+/* ── Admin Mobile ─────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .admin-layout { flex-direction: column; }
+
+  .admin-sidebar {
+    position: fixed;
+    left: -240px;
+    width: 220px;
+    top: 64px; bottom: 0;
+    z-index: 300;
+    transition: left 0.3s ease;
+  }
+  .admin-sidebar.mobile-open { left: 0; }
+
+  .admin-main { margin-left: 0 !important; padding: 16px; }
+
+  /* Table → card layout */
+  .table-head { display: none; }
+  .table-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    margin-bottom: 10px;
+  }
+  .table-row span { font-size: 0.82rem; }
+  .table-row span:nth-child(1)::before { content: "👤 "; }
+  .table-row span:nth-child(2)::before { content: "📧 "; }
+  .table-row span:nth-child(3)::before { content: "📞 "; }
+  .table-row span:nth-child(4)::before { content: "📚 "; }
+  .table-row span:nth-child(5)::before { content: "📅 "; }
+
+  /* MC form grid */
+  .mc-form-grid { grid-template-columns: 1fr; }
+  .mc-admin-card { flex-direction: column; gap: 12px; }
+  .mc-admin-actions { flex-direction: row; flex-wrap: wrap; gap: 8px; }
+
+  /* Panel header */
+  .admin-panel-header { flex-wrap: wrap; gap: 10px; }
+  .admin-panel-header h2 { font-size: 1rem; }
+}
+
+@media (max-width: 480px) {
+  .admin-panel { padding: 16px 12px; }
+  .mc-admin-meta { flex-wrap: wrap; gap: 6px; font-size: 0.75rem; }
+  .mc-reg-table-head { display: none; }
+  .mc-reg-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 10px;
+    border-bottom: 1px solid var(--card-border);
+    font-size: 0.8rem;
+  }
+}
