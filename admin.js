@@ -88,8 +88,9 @@ function detectCategory(name) {
   const n = name.toLowerCase();
   if (n.includes('agentic') || n.includes('agent')) return 'Agentic AI';
   if (n.includes('generative') || n.includes('genai') || n.includes('llm') || n.includes('gpt') || n.includes('rag') || n.includes('mcp') || n.includes('prompt')) return 'Generative AI';
-  if (n.includes('data')) return 'Data Science';
-  if (n.includes('domain') || n.includes('healthcare') || n.includes('finance') || n.includes('banking')) return 'Industry AI';
+  if (n.includes('data') || n.includes('excel') || n.includes('analytics') || n.includes('machine learning') || n.includes('deep learning') || n.includes('nlp')) return 'Data Science';
+  if (n.includes('python') || n.includes('sql') || n.includes('nosql') || n.includes('database') || n.includes('programming')) return 'Programming';
+  if (n.includes('domain') || n.includes('healthcare') || n.includes('finance') || n.includes('banking') || n.includes('retail') || n.includes('telecom') || n.includes('robotics') || n.includes('automation')) return 'Industry AI';
   return 'Generative AI';
 }
 
@@ -492,3 +493,98 @@ setInterval(() => {
 // ===== INIT =====
 renderMasterclasses();
 renderLiveClasses();
+
+
+// =====================================================
+//  SIGN UP DASHBOARD
+// =====================================================
+
+function getSignups() {
+  return JSON.parse(localStorage.getItem('aai_signups') || '[]');
+}
+
+function renderSignups(filter = '') {
+  const all = getSignups();
+  const filtered = filter
+    ? all.filter(s =>
+        s.name.toLowerCase().includes(filter) ||
+        s.email.toLowerCase().includes(filter) ||
+        (s.phone || '').toLowerCase().includes(filter)
+      )
+    : all;
+
+  document.getElementById('signupsCount').textContent = all.length;
+  const el = document.getElementById('signupsList');
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty-state">No sign ups found.</div>';
+    return;
+  }
+
+  el.innerHTML = `
+    <div class="table-head">
+      <span>#</span>
+      <span>Name</span>
+      <span>Email</span>
+      <span>Phone</span>
+      <span>Date</span>
+      <span>Time</span>
+      <span>Actions</span>
+    </div>
+    ${filtered.map((s, i) => `
+      <div class="table-row">
+        <span>${i + 1}</span>
+        <span><strong style="color:#e2e8f0">${s.name}</strong></span>
+        <span>${s.email}</span>
+        <span>${s.phone || '—'}</span>
+        <span>${s.date || '—'}</span>
+        <span>${s.time || '—'}</span>
+        <span class="action-btns">
+          <button class="btn-reject" onclick="deleteSignup(${s.id})">🗑 Delete</button>
+        </span>
+      </div>`).join('')}
+  `;
+}
+
+function deleteSignup(id) {
+  if (!confirm('Delete this sign up?')) return;
+  const list = getSignups().filter(s => s.id !== id);
+  localStorage.setItem('aai_signups', JSON.stringify(list));
+  renderSignups();
+}
+
+function clearSignups() {
+  if (!confirm('Clear ALL sign ups? This cannot be undone.')) return;
+  localStorage.removeItem('aai_signups');
+  renderSignups();
+}
+
+function exportSignups() {
+  const all = getSignups();
+  if (!all.length) { alert('No sign ups to export.'); return; }
+  const header = ['#', 'Name', 'Email', 'Phone', 'Date', 'Time'];
+  const rows = all.map((s, i) => [i + 1, s.name, s.email, s.phone || '', s.date || '', s.time || '']);
+  const csv = [header, ...rows].map(r => r.map(v => `"${v}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'arthrex-signups.csv';
+  a.click();
+}
+
+// Search filter
+const signupSearchEl = document.getElementById('signupSearch');
+if (signupSearchEl) {
+  signupSearchEl.addEventListener('input', e => renderSignups(e.target.value.trim().toLowerCase()));
+}
+
+// Render on load if panel is active
+document.addEventListener('DOMContentLoaded', () => {
+  const activePanel = document.querySelector('.admin-panel.active');
+  if (activePanel && activePanel.id === 'panel-signups') renderSignups();
+});
+
+// Hook into panel switching to render signups when tab is clicked
+document.querySelectorAll('.admin-nav-item[data-panel="signups"]').forEach(el => {
+  el.addEventListener('click', () => renderSignups());
+});

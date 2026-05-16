@@ -22,6 +22,7 @@ navItems.forEach(item => {
       trending: 'trending', courses: 'home', success: 'success', mycourses: 'home',
       agentic: 'agentic', genai: 'genai',
       datascience: 'datascience', domainai: 'domainai',
+      programming: 'programming',
       progress: 'home', certificates: 'home', settings: 'home'
     };
     showSection(sectionMap[section] || 'home');
@@ -54,5 +55,33 @@ document.querySelectorAll('.filter-tabs').forEach(tabGroup => {
         }
       });
     });
+  });
+});
+
+// ── Mobile sidebar toggle ─────────────────────────────────────────────────────
+const hamburgerBtn  = document.getElementById('hamburgerBtn');
+const sidebar       = document.querySelector('.sidebar');
+const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+function openSidebar() {
+  sidebar?.classList.add('mobile-open');
+  sidebarOverlay?.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+  sidebar?.classList.remove('mobile-open');
+  sidebarOverlay?.classList.remove('active');
+  document.body.style.overflow = '';
+}
+
+hamburgerBtn?.addEventListener('click', () => {
+  sidebar?.classList.contains('mobile-open') ? closeSidebar() : openSidebar();
+});
+sidebarOverlay?.addEventListener('click', closeSidebar);
+
+// Close sidebar when a nav item is clicked on mobile
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', () => {
+    if (window.innerWidth <= 768) closeSidebar();
   });
 });

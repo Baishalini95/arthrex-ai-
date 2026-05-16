@@ -27,10 +27,12 @@
   <header class="topbar">
     <div class="topbar-left">
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open menu">☰</button>
-      <div class="logo">Arthrex<span>AI</span></div>
+      <div class="logo">
+        <img src="logo-cropped.png" alt="Arthrex AI" class="logo-img" />
+      </div>
       <div class="search-bar">
         <span class="search-icon">🔍</span>
-        <input type="text" placeholder="Search courses, topics, instructors..." />
+        <input type="search" id="mainSearch" placeholder="Search courses, topics, instructors..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
       </div>
     </div>
     <div class="topbar-right">
@@ -40,12 +42,15 @@
       <a href="https://www.youtube.com/@arthrex-ai" target="_blank" class="icon-btn social-btn yt-btn" title="YouTube">
         <svg width="20" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
       </a>
-      <a href="website.html" class="btn-website" title="Our Website">🌐 Our Website</a>
+      <a href="https://www.intraintech.com" target="_blank" class="btn-website" title="Our Website">🌐 Our Website</a>
       <button class="btn-login" id="btnLogin" style="display:none">🔐 Login</button>
       <div class="user-avatar" id="userAvatar" style="display:none">BS</div>
       <button class="btn-logout" id="btnLogout" style="display:none">Logout</button>
     </div>
   </header>
+
+  <!-- Sidebar overlay for mobile -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
   <div class="dashboard-layout">
 
@@ -80,17 +85,13 @@
         <a href="#" class="nav-item" data-section="datascience">
           <span class="nav-icon">🔬</span> Data Science & Analytics
         </a>
+        <a href="#" class="nav-item" data-section="programming">
+          <span class="nav-icon">💻</span> Programming
+        </a>
         <a href="#" class="nav-item" data-section="domainai">
           <span class="nav-icon">🏭</span> Industry AI
         </a>
 
-        <div class="nav-section-label">Account</div>
-        <a href="#" class="nav-item" data-section="certificates">
-          <span class="nav-icon">🎖️</span> Certificates
-        </a>
-        <a href="#" class="nav-item" data-section="settings">
-          <span class="nav-icon">⚙️</span> Settings
-        </a>
         <a href="admin.html" class="nav-item admin-link">
           <span class="nav-icon">🛡️</span> Admin Panel
         </a>
@@ -220,12 +221,51 @@
             <button class="filter-btn active">All</button>
             <button class="filter-btn">Professional</button>
             <button class="filter-btn">LLM</button>
-            <button class="filter-btn">Prompt Engineering</button>
-            <button class="filter-btn">RAG</button>
-            <button class="filter-btn">MCP</button>
           </div>
         </div>
         <div class="cards-grid">
+          <!-- Professional Programs -->
+          <div class="subsection-header" style="grid-column:1/-1">
+            <span class="subsection-icon">🏅</span>
+            <h3>Professional Programs — 3 to 6 Month Courses</h3>
+          </div>
+
+          <div class="master-card pro-card">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">🚀</div>
+            <div class="card-body">
+              <span class="tag">Professional</span>
+              <div class="pro-badge">Flagship</div>
+              <h3>Professional Generative AI Engineer</h3>
+              <p>Master LLMs, RAG, prompt engineering, fine-tuning, vector databases, and production AI applications.</p>
+              <div class="card-meta"><span>📅 6 Months</span><span>🎓 Professional Certification</span><span>🛠 Hands-on Projects</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+
+          <div class="master-card pro-card">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🔗</div>
+            <div class="card-body">
+              <span class="tag">Professional</span>
+              <div class="pro-badge" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">RAG · MCP · Prompt Eng</div>
+              <h3>Professional RAG, MCP & Prompt Engineering</h3>
+              <p>Build production-grade RAG systems, Model Context Protocol integrations, and master advanced prompt engineering for enterprise AI.</p>
+              <div class="card-meta"><span>📅 4 Months</span><span>🎓 Professional Certification</span><span>🛠 Hands-on Projects</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+
+          <div class="master-card pro-card">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">🏢</div>
+            <div class="card-body">
+              <span class="tag">Professional</span>
+              <div class="pro-badge enterprise-badge">Enterprise</div>
+              <h3>Enterprise Generative AI Architect</h3>
+              <p>Design scalable enterprise AI systems with foundation models, orchestration, and AI infrastructure.</p>
+              <div class="card-meta"><span>📅 6 Months</span><span>🏢 Enterprise Focused</span><span>☁️ Cloud & AI Systems</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+
           <!-- LLM Programs -->
           <div class="subsection-header" style="grid-column:1/-1">
             <span class="subsection-icon">🧠</span>
@@ -327,165 +367,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">✍️</div>
-            <div class="card-body">
-              <span class="tag">Prompt Engineering</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">Fundamentals</div>
-              <h3>Prompt Engineering Fundamentals</h3>
-              <p>Learn prompting techniques, structured outputs, reasoning patterns, and AI response optimization.</p>
-              <div class="card-meta"><span>⏱ 2 Weeks</span><span>⭐ 4.9</span><span>👥 18K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
 
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">⚙️</div>
-            <div class="card-body">
-              <span class="tag">Prompt Engineering</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">Advanced</div>
-              <h3>Advanced Prompt Engineering</h3>
-              <p>Develop chain-of-thought prompts, system prompts, AI workflows, and enterprise prompt architectures.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.8</span><span>👥 12K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🚀</div>
-            <div class="card-body">
-              <span class="tag">Prompt Engineering</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">Production</div>
-              <h3>Prompt Engineering for Production AI</h3>
-              <p>Create production-grade prompt pipelines for chatbots, copilots, and AI automation platforms.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.9</span><span>👥 10K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🔗</div>
-            <div class="card-body">
-              <span class="tag">RAG</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">RAG</div>
-              <h3>Build Intelligent Retrieval-Augmented AI Systems</h3>
-              <p>Create AI applications with embeddings, vector databases, semantic search, and enterprise knowledge retrieval.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.9</span><span>👥 14K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">🕸️</div>
-            <div class="card-body">
-              <span class="tag">RAG</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">Graph RAG</div>
-              <h3>Knowledge Graphs & Contextual AI Retrieval</h3>
-              <p>Develop advanced GraphRAG systems using knowledge graphs, relationship mapping, and intelligent reasoning pipelines.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.8</span><span>👥 9K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#0ea5e9,#2563eb)">☁️</div>
-            <div class="card-body">
-              <span class="tag">RAG</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#0ea5e9,#2563eb)">Serverless RAG</div>
-              <h3>Scalable Cloud-Native RAG Architectures</h3>
-              <p>Deploy serverless Retrieval-Augmented Generation systems using APIs, vector databases, and cloud functions.</p>
-              <div class="card-meta"><span>⏱ 4 Weeks</span><span>⭐ 4.9</span><span>👥 11K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">🔌</div>
-            <div class="card-body">
-              <span class="tag">MCP</span>
-              <div class="pro-badge" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">Fundamentals</div>
-              <h3>MCP Fundamentals</h3>
-              <p>Learn Model Context Protocol, tool calling, API integrations, and context-aware AI systems.</p>
-              <div class="card-meta"><span>⏱ 2 Weeks</span><span>⭐ 4.8</span><span>👥 8K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">⚙️</div>
-            <div class="card-body">
-              <span class="tag">MCP</span>
-              <div class="pro-badge enterprise-badge">Enterprise</div>
-              <h3>Enterprise MCP Engineering</h3>
-              <p>Develop enterprise-grade AI workflows connecting databases, APIs, CRMs, and business tools.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.8</span><span>👥 6K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#059669,#0ea5e9)">🚀</div>
-            <div class="card-body">
-              <span class="tag">MCP</span>
-              <div class="pro-badge ops-badge">Agent Systems</div>
-              <h3>MCP & AI Agent Systems</h3>
-              <p>Build autonomous AI agents capable of interacting with external systems and executing tasks.</p>
-              <div class="card-meta"><span>⏱ 3 Weeks</span><span>⭐ 4.9</span><span>👥 7K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <!-- Professional Programs -->
-          <div class="subsection-header" style="grid-column:1/-1">
-            <span class="subsection-icon">🏅</span>
-            <h3>Professional Programs — 3 to 6 Month Courses</h3>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">🚀</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge">Flagship</div>
-              <h3>Professional Generative AI Engineer</h3>
-              <p>Master LLMs, RAG, prompt engineering, fine-tuning, vector databases, and production AI applications.</p>
-              <div class="card-meta"><span>📅 6 Months</span><span>🎓 Professional Certification</span><span>🛠 Hands-on Projects</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🧑‍💻</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge developer-badge">Developer</div>
-              <h3>Full Stack Generative AI Developer</h3>
-              <p>Build end-to-end GenAI applications using LLMs, APIs, RAG pipelines, and cloud deployment.</p>
-              <div class="card-meta"><span>📅 6 Months</span><span>🚀 Industry Projects</span><span>⚙️ Production Deployment</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">🏢</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge enterprise-badge">Enterprise</div>
-              <h3>Enterprise Generative AI Architect</h3>
-              <p>Design scalable enterprise AI systems with foundation models, orchestration, and AI infrastructure.</p>
-              <div class="card-meta"><span>📅 6 Months</span><span>🏢 Enterprise Focused</span><span>☁️ Cloud & AI Systems</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🧠</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge advanced-badge">Applied</div>
-              <h3>Applied Generative AI Professional</h3>
-              <p>Learn practical implementation of GPT models, embeddings, vector databases, and AI workflows.</p>
-              <div class="card-meta"><span>📅 3 Months</span><span>🧠 Real-World Use Cases</span><span>🔗 Enterprise Integrations</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
         </div>
       </section>
 
@@ -501,83 +383,6 @@
           </div>
         </div>
         <div class="cards-grid">
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">🤖</div>
-            <div class="card-body">
-              <span class="tag">All</span>
-              <h3>Building Autonomous AI Agents</h3>
-              <p>Create intelligent agents that can plan, reason, and execute tasks.</p>
-              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.9</span><span>👥 12K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <!-- Cloud Native Agentic AI -->
-          <div class="subsection-header" style="grid-column:1/-1">
-            <span class="subsection-icon">☁️</span>
-            <h3>Cloud Native Agentic AI</h3>
-          </div>
-
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">☁️</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>AWS Bedrock</h3>
-              <p>Build Autonomous AI Agents on AWS using Bedrock foundation models.</p>
-              <div class="card-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 10K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#0078d4,#00bcf2)">☁️</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>Azure AutoGen</h3>
-              <p>Create Collaborative Multi-Agent Systems using Microsoft Azure AutoGen.</p>
-              <div class="card-meta"><span>⏱ 4.5 hrs</span><span>⭐ 4.8</span><span>👥 8K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#6264a7,#0078d4)">☁️</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>Copilot Studio</h3>
-              <p>Develop Enterprise AI Copilots with Microsoft Copilot Studio.</p>
-              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.8</span><span>👥 7K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#4285f4,#34a853)">☁️</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>Vertex AI</h3>
-              <p>Deploy Cloud-Native AI Agents using Google Cloud Vertex AI.</p>
-              <div class="card-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 9K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#ef4444,#f97316)">🤖</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>CrewAI</h3>
-              <p>Engineer Multi-Agent AI Teams using the CrewAI framework.</p>
-              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.9</span><span>👥 6K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🔄</div>
-            <div class="card-body">
-              <span class="tag">Cloud Based</span>
-              <h3>n8n AI</h3>
-              <p>Automate Workflows with AI Agents using n8n's visual automation platform.</p>
-              <div class="card-meta"><span>⏱ 3.5 hrs</span><span>⭐ 4.8</span><span>👥 5K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
           <!-- Professional Programs -->
           <div class="subsection-header" style="grid-column:1/-1">
             <span class="subsection-icon">🏅</span>
@@ -592,18 +397,6 @@
               <h3>Professional Agentic AI Engineer</h3>
               <p>The most comprehensive program to become a certified Agentic AI Engineer.</p>
               <div class="card-meta"><span>📅 6 Months</span><span>⭐ 5.0</span><span>👥 5K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🧑‍💻</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge developer-badge">Developer</div>
-              <h3>Full Stack Generative AI Engineer</h3>
-              <p>Build end-to-end GenAI applications from LLMs to production deployment.</p>
-              <div class="card-meta"><span>📅 5 Months</span><span>⭐ 4.9</span><span>👥 4.2K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
@@ -633,30 +426,6 @@
           </div>
 
           <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#06b6d4,#6366f1)">🔄</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge workflow-badge">Workflow Systems</div>
-              <h3>AI Orchestration Professional</h3>
-              <p>Master AI workflow orchestration, pipelines & agent coordination systems.</p>
-              <div class="card-meta"><span>📅 3 Months</span><span>⭐ 4.9</span><span>👥 2.2K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#0f172a,#7c3aed)">🌌</div>
-            <div class="card-body">
-              <span class="tag">Professional</span>
-              <div class="pro-badge futuristic-badge">Futuristic</div>
-              <h3>Autonomous AI Systems</h3>
-              <p>Explore next-gen autonomous AI systems, self-learning agents & future architectures.</p>
-              <div class="card-meta"><span>📅 6 Months</span><span>⭐ 5.0</span><span>👥 1.5K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-
-          <div class="master-card pro-card">
             <div class="card-thumb" style="background:linear-gradient(135deg,#059669,#0ea5e9)">⚙️</div>
             <div class="card-body">
               <span class="tag">Professional</span>
@@ -667,41 +436,66 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-        </div>
 
-        <!-- Enterprise / Architecture Programs -->
-        <div class="subsection-header">
-          <span class="subsection-icon">🏗️</span>
-          <h3>Enterprise / Architecture Programs</h3>
-        </div>
-        <div class="cards-grid">
-          <div class="master-card enterprise-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#1e3a5f,#2563eb)">🏢</div>
+          <!-- Cloud Native Agentic AI -->
+          <div class="subsection-header" style="grid-column:1/-1">
+            <span class="subsection-icon">☁️</span>
+            <h3>Cloud Native Agentic AI</h3>
+          </div>
+
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">☁️</div>
             <div class="card-body">
-              <span class="tag enterprise-tag">Architecture</span>
-              <h3>Enterprise AI Architecture</h3>
-              <p>Design scalable, secure & governed AI systems for large enterprises.</p>
-              <div class="card-meta"><span>⏱ 8 hrs</span><span>⭐ 5.0</span><span>👥 3K enrolled</span></div>
+              <span class="tag">Cloud Based</span>
+              <h3>AWS Bedrock</h3>
+              <p>Build Autonomous AI Agents on AWS using Bedrock foundation models.</p>
+              <div class="card-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 10K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card enterprise-card">
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#0078d4,#00bcf2)">☁️</div>
+            <div class="card-body">
+              <span class="tag">Cloud Based</span>
+              <h3>Azure AutoGen</h3>
+              <p>Create Collaborative Multi-Agent Systems using Microsoft Azure AutoGen.</p>
+              <div class="card-meta"><span>⏱ 4.5 hrs</span><span>⭐ 4.8</span><span>👥 8K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#6264a7,#0078d4)">☁️</div>
+            <div class="card-body">
+              <span class="tag">Cloud Based</span>
+              <h3>Copilot Studio</h3>
+              <p>Develop Enterprise AI Copilots with Microsoft Copilot Studio.</p>
+              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.8</span><span>👥 7K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#4285f4,#34a853)">☁️</div>
+            <div class="card-body">
+              <span class="tag">Cloud Based</span>
+              <h3>Gemini Enterprise Agent Platform</h3>
+              <p>Build and deploy enterprise-grade AI agents using Google Gemini on Vertex AI infrastructure.</p>
+              <div class="card-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 9K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+
+          <!-- Enterprise / Architecture Programs -->
+          <div class="subsection-header" style="grid-column:1/-1">
+            <span class="subsection-icon">🏗️</span>
+            <h3>Enterprise / Architecture Programs</h3>
+          </div>
+          <div class="master-card enterprise-card" data-price="49999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#312e81,#7c3aed)">📍</div>
             <div class="card-body">
               <span class="tag enterprise-tag">Architecture</span>
               <h3>AI Solution Architect</h3>
               <p>Master end-to-end AI solution design, integration & deployment strategies.</p>
               <div class="card-meta"><span>⏱ 10 hrs</span><span>⭐ 5.0</span><span>👥 2.5K enrolled</span></div>
-              <a href="#" class="btn-enroll">Enroll Now</a>
-            </div>
-          </div>
-          <div class="master-card enterprise-card">
-            <div class="card-thumb" style="background:linear-gradient(135deg,#0f4c75,#1b6ca8)">🚀</div>
-            <div class="card-body">
-              <span class="tag enterprise-tag">Architecture</span>
-              <h3>NextGen AI Platforms</h3>
-              <p>Explore cutting-edge AI platforms, toolchains & future-ready architectures.</p>
-              <div class="card-meta"><span>⏱ 7 hrs</span><span>⭐ 4.9</span><span>👥 1.8K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
@@ -720,27 +514,38 @@
           </div>
         </div>
         <div class="cards-grid">
-          <div class="master-card">
+          <div class="master-card" data-price="19999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">🔬</div>
             <div class="card-body">
               <span class="tag">Data Science</span>
-              <h3>Data Science with Python</h3>
-              <p>Master NumPy, Pandas, Matplotlib & Scikit-learn for real-world projects.</p>
+              <h3>Data Science with Machine Learning</h3>
+              <p>Master NumPy, Pandas, Scikit-learn, ML algorithms & real-world predictive modelling projects.</p>
               <div class="card-meta"><span>⏱ 6 hrs</span><span>⭐ 4.9</span><span>👥 38K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">🧠</div>
+            <div class="card-body">
+              <span class="tag">Data Science</span>
+              <h3>Deep Learning & NLP</h3>
+              <p>Build neural networks, CNNs, RNNs & NLP pipelines using TensorFlow, PyTorch and Hugging Face.</p>
+              <div class="card-meta"><span>⏱ 7 hrs</span><span>⭐ 4.9</span><span>👥 22K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+          <div class="master-card" data-price="31999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">📊</div>
             <div class="card-body">
               <span class="tag">Data Analytics</span>
-              <h3>Business Analytics & Visualization</h3>
+              <h3>Data Analytics & AI Tools</h3>
               <p>Turn raw data into business insights using Power BI & Tableau.</p>
               <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.8</span><span>👥 29K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🤖</div>
             <div class="card-body">
               <span class="tag">AI Tools</span>
@@ -750,13 +555,57 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="39999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">🗄️</div>
             <div class="card-body">
               <span class="tag">Data Analytics</span>
-              <h3>SQL & Database Analytics</h3>
+              <h3>Advance Data Analytics</h3>
               <p>Write advanced SQL queries and build analytics dashboards from scratch.</p>
               <div class="card-meta"><span>⏱ 3.5 hrs</span><span>⭐ 4.7</span><span>👥 17K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#16a34a,#15803d)">📊</div>
+            <div class="card-body">
+              <span class="tag">Data Analytics</span>
+              <h3>Advance Excel</h3>
+              <p>Master advanced Excel formulas, pivot tables, dashboards & data analysis for business insights.</p>
+              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.8</span><span>👥 25K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- PROGRAMMING SECTION -->
+      <section class="content-section" id="section-programming">
+        <div class="section-header">
+          <h2>💻 Programming</h2>
+          <div class="filter-tabs">
+            <button class="filter-btn active">All</button>
+            <button class="filter-btn">Python</button>
+            <button class="filter-btn">Database</button>
+          </div>
+        </div>
+        <div class="cards-grid">
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">🐍</div>
+            <div class="card-body">
+              <span class="tag">Python</span>
+              <h3>Python for AI & Analytics</h3>
+              <p>Master Python programming for data analysis, automation and building AI-powered applications.</p>
+              <div class="card-meta"><span>⏱ 5 hrs</span><span>⭐ 4.9</span><span>👥 32K enrolled</span></div>
+              <a href="#" class="btn-enroll">Enroll Now</a>
+            </div>
+          </div>
+          <div class="master-card" data-price="9999">
+            <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#10b981)">🗄️</div>
+            <div class="card-body">
+              <span class="tag">Database</span>
+              <h3>Database - SQL & NoSQL</h3>
+              <p>Learn relational databases with SQL and modern NoSQL databases like MongoDB & Firebase from scratch.</p>
+              <div class="card-meta"><span>⏱ 4 hrs</span><span>⭐ 4.8</span><span>👥 18K enrolled</span></div>
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
@@ -781,7 +630,7 @@
           </div>
         </div>
         <div class="cards-grid">
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#0ea5e9)">🏥</div>
             <div class="card-body">
               <span class="tag">Healthcare</span>
@@ -791,7 +640,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">🛍️</div>
             <div class="card-body">
               <span class="tag">Retail</span>
@@ -801,7 +650,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#7c3aed,#2563eb)">🛏️</div>
             <div class="card-body">
               <span class="tag">E-Commerce</span>
@@ -811,7 +660,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">💹</div>
             <div class="card-body">
               <span class="tag">Finance</span>
@@ -821,7 +670,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#06b6d4,#3b82f6)">📶</div>
             <div class="card-body">
               <span class="tag">Telecom</span>
@@ -831,7 +680,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#10b981,#7c3aed)">🏦</div>
             <div class="card-body">
               <span class="tag">Banking</span>
@@ -841,7 +690,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#f97316,#facc15)">🛠️</div>
             <div class="card-body">
               <span class="tag">IT Support</span>
@@ -851,7 +700,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#6366f1,#0ea5e9)">⚙️</div>
             <div class="card-body">
               <span class="tag">Automation</span>
@@ -861,7 +710,7 @@
               <a href="#" class="btn-enroll">Enroll Now</a>
             </div>
           </div>
-          <div class="master-card">
+          <div class="master-card" data-price="9999">
             <div class="card-thumb" style="background:linear-gradient(135deg,#ef4444,#7c3aed)">🤖</div>
             <div class="card-body">
               <span class="tag">Robotics</span>
@@ -933,38 +782,82 @@
 
   <!-- LOGIN MODAL -->
   <div class="modal-overlay" id="loginModal">
-    <div class="modal-box" style="max-width:400px">
+    <div class="modal-box" style="max-width:420px">
       <button class="modal-close" id="closeLoginModal">&times;</button>
       <div class="modal-header">
-        <div class="modal-icon">🔐</div>
-        <h2>Sign in to <span class="gradient-text">Arthrex AI</span></h2>
-        <p>Enter your credentials to continue</p>
+        <div class="modal-icon">
+          <img src="logo-cropped.png" alt="Arthrex AI" style="height:48px;width:auto;filter:invert(1) hue-rotate(180deg) brightness(1.2);mix-blend-mode:screen"/>
+        </div>
+        <h2>Welcome to <span class="gradient-text">Arthrex AI</span></h2>
+        <p>Start your AI learning journey today</p>
       </div>
 
-      <div class="form-group" style="margin-bottom:14px">
-        <label style="font-size:0.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:6px">Email</label>
-        <input type="email" id="auth_email" placeholder="you@example.com" class="auth-input"/>
-      </div>
-      <div class="form-group" style="margin-bottom:14px">
-        <label style="font-size:0.78rem;font-weight:600;color:var(--muted);display:block;margin-bottom:6px">Password</label>
-        <input type="password" id="auth_password" placeholder="••••••••" class="auth-input"/>
+      <!-- TABS -->
+      <div class="modal-tabs">
+        <button class="modal-tab active" id="tabSignup" onclick="switchAuthTab('signup')">✨ Get Started</button>
+        <button class="modal-tab" id="tabLogin" onclick="switchAuthTab('login')">🔐 Sign In</button>
       </div>
 
-      <!-- Role selector -->
-      <div class="auth-role-row">
-        <button class="auth-role-btn active" id="roleUser" onclick="selectRole('user')">
-          👤 User
-        </button>
-        <button class="auth-role-btn" id="roleAdmin" onclick="selectRole('admin')">
-          🛡️ Admin
-        </button>
+      <!-- SIGNUP FORM -->
+      <div id="formSignup" style="display:flex;flex-direction:column;gap:14px">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signup_name" placeholder="Your full name" class="auth-input"/>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="signup_email" placeholder="you@example.com" class="auth-input"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div style="display:flex;gap:8px">
+            <select id="signup_country" class="auth-input" style="width:130px;flex-shrink:0">
+              <option value="+91">🇮🇳 +91 India</option>
+              <option value="+1">🇺🇸 +1 USA</option>
+              <option value="+44">🇬🇧 +44 UK</option>
+              <option value="+61">🇦🇺 +61 Australia</option>
+              <option value="+971">🇦🇪 +971 UAE</option>
+              <option value="+65">🇸🇬 +65 Singapore</option>
+              <option value="+60">🇲🇾 +60 Malaysia</option>
+              <option value="+49">🇩🇪 +49 Germany</option>
+              <option value="+33">🇫🇷 +33 France</option>
+              <option value="+81">🇯🇵 +81 Japan</option>
+              <option value="+86">🇨🇳 +86 China</option>
+              <option value="+55">🇧🇷 +55 Brazil</option>
+              <option value="+27">🇿🇦 +27 South Africa</option>
+              <option value="+234">🇳🇬 +234 Nigeria</option>
+              <option value="+92">🇵🇰 +92 Pakistan</option>
+              <option value="+880">🇧🇩 +880 Bangladesh</option>
+              <option value="+94">🇱🇰 +94 Sri Lanka</option>
+              <option value="+977">🇳🇵 +977 Nepal</option>
+            </select>
+            <input type="tel" id="signup_phone" placeholder="Phone number" class="auth-input" style="flex:1"/>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="signup_password" placeholder="Create a password (min 6 chars)" class="auth-input"/>
+        </div>
+        <div id="signupError" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:10px 14px;border-radius:8px;font-size:0.82rem"></div>
+        <button class="btn-auth-submit" id="btnSignupSubmit">🚀 Join Arthrex AI</button>
+        <p style="text-align:center;font-size:0.78rem;color:#64748b">Already have an account? <a href="#" onclick="switchAuthTab('login')" style="color:#a78bfa">Sign In</a></p>
       </div>
 
-      <div class="auth-error" id="authError" style="display:none"></div>
+      <!-- LOGIN FORM -->
+      <div id="formLogin" style="display:none;flex-direction:column;gap:14px">
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="auth_email" placeholder="you@example.com" class="auth-input"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="auth_password" placeholder="••••••••" class="auth-input"/>
+        </div>
+        <div id="authError" style="display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:10px 14px;border-radius:8px;font-size:0.82rem"></div>
+        <button class="btn-auth-submit" id="btnAuthSubmit">Sign In</button>
+        <p style="text-align:center;font-size:0.78rem;color:#64748b">New here? <a href="#" onclick="switchAuthTab('signup')" style="color:#a78bfa">Create account</a></p>
+      </div>
 
-      <button class="btn-auth-submit" id="btnAuthSubmit">Sign In</button>
-
-      <p class="auth-hint">Demo — User: <strong>user@arthrex.ai / user123</strong><br>Admin: <strong>admin@arthrex.ai / admin123</strong></p>
     </div>
   </div>
 
@@ -1193,10 +1086,18 @@
   </div>
 
   <script src="app.js"></script>
+  <script>
+    // Force clear search bar — Chrome ignores autocomplete="off" for autofill
+    window.addEventListener('load', () => {
+      const s = document.getElementById('mainSearch');
+      if (s) { s.value = ''; s.setAttribute('readonly', true); setTimeout(() => s.removeAttribute('readonly'), 100); }
+    });
+  </script>
   <script src="pricing.js"></script>
   <script src="enroll.js"></script>
   <script src="dashboard-courses.js"></script>
   <script src="trending.js"></script>
+  <script src="api.js"></script>
   <script src="auth.js"></script>
   <script src="thumbnails.js"></script>
   <script src="masterclasses.js"></script>
@@ -1242,6 +1143,33 @@
           .then(reg => console.log('[PWA] Service Worker registered:', reg.scope))
           .catch(err => console.log('[PWA] SW registration failed:', err));
       });
+    }
+  </script>
+
+  <!-- Mobile Bottom Navigation -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a href="#" data-section="home" class="active" onclick="mobileNav(this,'home')">
+      <span>🏠</span><span>Home</span>
+    </a>
+    <a href="#" data-section="masterclass" onclick="mobileNav(this,'masterclass')">
+      <span>🎓</span><span>Courses</span>
+    </a>
+    <a href="#" data-section="live" onclick="mobileNav(this,'live')">
+      <span>🔴</span><span>Live</span>
+    </a>
+    <a href="#" data-section="trending" onclick="mobileNav(this,'trending')">
+      <span>📈</span><span>Trending</span>
+    </a>
+    <a href="#" onclick="document.getElementById('btnLogin').click();return false">
+      <span>👤</span><span>Account</span>
+    </a>
+  </nav>
+
+  <script>
+    function mobileNav(el, section) {
+      document.querySelectorAll('.mobile-bottom-nav a').forEach(a => a.classList.remove('active'));
+      el.classList.add('active');
+      showSection(section);
     }
   </script>
 </body>

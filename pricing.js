@@ -7,10 +7,7 @@ function calcPrice(durationText) {
 
   const monthMatch = t.match(/([\d.]+)\s*month/);
   if (monthMatch) {
-    const m = parseFloat(monthMatch[1]);
-    if (m === 6) return 39999;
-    if (m === 3) return 23999;
-    return Math.round(m * 160 * 1000);
+    return 39999;
   }
 
   const weekMatch = t.match(/([\d.]+)\s*week/);
@@ -30,13 +27,22 @@ document.querySelectorAll('.card-meta, .live-meta').forEach(meta => {
   // Remove any previously injected price tags
   meta.querySelectorAll('.price-tag').forEach(p => p.remove());
 
-  // Skip free masterclass cards — check tag text or button text
+  // Skip free masterclass cards
   const card = meta.closest('.master-card, .course-card, .live-card');
   if (card) {
     const enrollBtn = card.querySelector('.btn-enroll');
     const freeTag = card.querySelector('.tag');
     if ((enrollBtn && enrollBtn.textContent.toLowerCase().includes('free')) ||
         (freeTag && freeTag.textContent.trim().toUpperCase() === 'FREE')) return;
+
+    // Use data-price override if set
+    if (card.dataset.price) {
+      const priceSpan = document.createElement('span');
+      priceSpan.className = 'price-tag';
+      priceSpan.textContent = '💰 ' + formatINR(parseInt(card.dataset.price));
+      meta.appendChild(priceSpan);
+      return;
+    }
   }
 
   const spans = meta.querySelectorAll('span');

@@ -664,3 +664,22 @@ body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-s
   .lesson-content h2 { font-size: 1rem; }
   .lesson-content pre { font-size: 0.75rem; overflow-x: auto; }
 }
+
+/* ── Module Materials in lesson view ── */
+.lb-materials-list { display: flex; flex-direction: column; gap: 8px; }
+.lb-material-item { display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px 14px; }
+.lb-material-icon { font-size: 1.1rem; }
+.lb-material-title { flex: 1; font-size: 0.88rem; font-weight: 600; color: #e2e8f0; }
+.lb-material-type { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; color: #64748b; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 50px; }
+.lb-material-link { font-size: 0.8rem; font-weight: 700; color: #38bdf8; text-decoration: none; padding: 4px 10px; background: rgba(14,165,233,0.1); border-radius: 6px; }
+.lb-material-link:hover { background: rgba(14,165,233,0.2); }
+
+/* ── Module Quiz in lesson view ── */
+.lb-quiz-block { display: flex; flex-direction: column; gap: 16px; }
+.lb-quiz-question { background: rgba(139,92,246,0.07); border: 1px solid rgba(139,92,246,0.2); border-radius: 10px; padding: 14px 16px; }
+.lb-quiz-q-text { font-size: 0.92rem; color: #e2e8f0; margin-bottom: 10px; line-height: 1.5; }
+.lb-quiz-options { display: flex; flex-direction: column; gap: 8px; }
+.lb-quiz-option { display: flex; align-items: center; gap: 10px; cursor: pointer; padding: 8px 12px; border-radius: 7px; border: 1px solid rgba(255,255,255,0.07); background: rgba(255,255,255,0.03); transition: background 0.15s; font-size: 0.87rem; color: #cbd5e1; }
+.lb-quiz-option:hover { background: rgba(139,92,246,0.12); border-color: rgba(139,92,246,0.3); }
+.lb-quiz-option input { accent-color: #7c3aed; }
+.lb-quiz-feedback { margin-top: 8px; font-size: 0.85rem; min-height: 20px; }

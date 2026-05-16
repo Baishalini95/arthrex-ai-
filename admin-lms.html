@@ -35,6 +35,7 @@
           <button class="cat-btn" data-category="genai">✨ Generative AI</button>
           <button class="cat-btn" data-category="datascience">🔬 Data Science</button>
           <button class="cat-btn" data-category="domainai">🏭 Industry AI</button>
+          <button class="cat-btn" data-category="programming">💻 Programming</button>
         </div>
       </div>
 
@@ -122,7 +123,9 @@
         <div class="tab-header">
           <h2>📝 Assignments</h2>
           <button class="btn-add" id="btnAddAssignment">+ Add Assignment</button>
+          <button class="btn-ai-lessons" onclick="aiGenerateAssignments()" style="margin-left:8px">✨ AI Generate</button>
         </div>
+        <div id="aiAssignStatus" style="display:none;font-size:0.82rem;color:#a78bfa;padding:10px;text-align:center"></div>
         <div class="form-card" id="assignmentForm" style="display:none">
           <h3>New Assignment</h3>
           <div class="form-row">
@@ -283,7 +286,7 @@
 
   <!-- Add / Edit Lesson Modal -->
   <div class="modal-overlay" id="lessonModal">
-    <div class="modal-box" style="max-width:640px">
+    <div class="modal-box" style="max-width:640px;max-height:90vh;overflow-y:auto">
       <button class="modal-close" id="closeLessonModal">&times;</button>
       <div class="modal-header">
         <h2><span id="lessonModalTitle">Add Lesson to</span> <span class="gradient-text" id="lessonTopicName"></span></h2>
@@ -355,6 +358,7 @@
             <option>Agentic AI</option>
             <option>Data Science</option>
             <option>Industry AI</option>
+            <option>Programming</option>
             <option>LLM</option>
             <option>RAG</option>
             <option>MCP</option>
@@ -421,6 +425,18 @@
         <p id="aiPromptCourseName" class="ai-prompt-course-name"></p>
       </div>
 
+      <!-- Groq API Key -->
+      <div class="form-group" style="margin-bottom:14px">
+        <label style="font-size:0.78rem;font-weight:700;color:#a78bfa">🔑 Groq API Key <a href="https://console.groq.com/keys" target="_blank" style="color:#60a5fa;font-weight:400;font-size:0.75rem;margin-left:6px">Get free key →</a></label>
+        <div style="display:flex;gap:8px">
+          <input type="password" id="groqApiKeyInput" placeholder="gsk_..." 
+            style="flex:1;background:rgba(255,255,255,0.05);border:1px solid rgba(124,58,237,0.3);border-radius:8px;padding:9px 14px;color:#e2e8f0;font-size:0.85rem;outline:none;font-family:monospace"/>
+          <button onclick="saveGroqKeyFromInput()" 
+            style="background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;border:none;padding:9px 16px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer;white-space:nowrap">Save Key</button>
+        </div>
+        <span id="groqKeyStatus" style="font-size:0.75rem;color:#64748b;margin-top:4px;display:block"></span>
+      </div>
+
       <!-- Prompt Instructions -->
       <div class="form-group">
         <label>📝 Course Instructions</label>
@@ -483,6 +499,105 @@
     <div>
       <strong>Course Saved!</strong>
       <p id="toastMsg">All changes have been saved successfully.</p>
+    </div>
+  </div>
+
+  <!-- MATERIAL MODAL -->
+  <div class="modal-overlay" id="materialModal">
+    <div class="modal-box" style="max-width:480px">
+      <button class="modal-close" id="closeMaterialModal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-icon">📎</div>
+        <h2>Add Material</h2>
+        <p class="gradient-text" id="materialTopicName"></p>
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="materialTitle" placeholder="e.g. Week 1 Slides, Cheat Sheet..." />
+      </div>
+      <div class="form-group">
+        <label>Type</label>
+        <select id="materialType">
+          <option>PDF</option>
+          <option>Slides</option>
+          <option>Cheat Sheet</option>
+          <option>Code</option>
+          <option>Dataset</option>
+          <option>Link</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>URL (optional)</label>
+        <input type="url" id="materialUrl" placeholder="https://..." />
+      </div>
+      <div class="form-actions">
+        <button class="btn-save" id="saveMaterialBtn">📎 Add Material</button>
+        <button class="btn-cancel" id="cancelMaterialBtn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPIC QUIZ MODAL -->
+  <div class="modal-overlay" id="topicQuizModal">
+    <div class="modal-box" style="max-width:520px;max-height:90vh;overflow-y:auto">
+      <button class="modal-close" id="closeTopicQuizModal">&times;</button>
+      <div class="modal-header">
+        <div class="modal-icon">🧠</div>
+        <h2>Add Quiz Questions</h2>
+        <p class="gradient-text" id="topicQuizTopicName"></p>
+      </div>
+
+      <!-- AI Generate strip -->
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:16px;background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:10px;padding:10px 14px">
+        <span style="font-size:0.82rem;color:#a78bfa;font-weight:600">✨ AI Generate</span>
+        <input type="number" id="quizAiCount" value="5" min="1" max="20" style="width:56px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:6px;padding:5px 8px;color:#e2e8f0;font-size:0.82rem;text-align:center"/>
+        <span style="font-size:0.78rem;color:#64748b">MCQs</span>
+        <button onclick="aiGenerateQuiz()" style="margin-left:auto;background:linear-gradient(135deg,#7c3aed,#2563eb);color:white;border:none;padding:7px 14px;border-radius:7px;font-size:0.8rem;font-weight:700;cursor:pointer">✨ Generate</button>
+      </div>
+      <div id="quizAiStatus" style="display:none;font-size:0.8rem;color:#a78bfa;margin-bottom:10px;text-align:center"></div>
+
+      <!-- Questions list (added so far this session) -->
+      <div id="quizQueueList" style="margin-bottom:14px"></div>
+
+      <!-- Add question form -->
+      <div id="quizAddForm">
+        <div class="form-group">
+          <label>Question</label>
+          <input type="text" id="topicQuizQuestion" placeholder="e.g. What is a transformer model?" />
+        </div>
+        <div class="form-group">
+          <label>Option A</label>
+          <input type="text" id="topicQuizOpt1" placeholder="Option A" />
+        </div>
+        <div class="form-group">
+          <label>Option B</label>
+          <input type="text" id="topicQuizOpt2" placeholder="Option B" />
+        </div>
+        <div class="form-group">
+          <label>Option C (optional)</label>
+          <input type="text" id="topicQuizOpt3" placeholder="Option C" />
+        </div>
+        <div class="form-group">
+          <label>Option D (optional)</label>
+          <input type="text" id="topicQuizOpt4" placeholder="Option D" />
+        </div>
+        <div class="form-group">
+          <label>Correct Answer</label>
+          <select id="topicQuizAnswer">
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+          </select>
+        </div>
+        <button class="btn-add-material" style="width:100%;margin-bottom:14px" onclick="queueQuizQuestion()">+ Add Another Question</button>
+      </div>
+
+      <div class="form-actions">
+        <button class="btn-save" id="saveTopicQuizBtn">🧠 Save All Questions</button>
+        <button class="btn-cancel" id="cancelTopicQuizBtn">Cancel</button>
+      </div>
     </div>
   </div>
 

@@ -31,6 +31,7 @@
       <a href="#" class="admin-nav-item" data-panel="rejected">❌ Rejected</a>
       <a href="#" class="admin-nav-item" data-panel="masterclasses">🎓 Masterclasses</a>
       <a href="#" class="admin-nav-item" data-panel="liveclasses">🔴 Live Classes</a>
+      <a href="#" class="admin-nav-item" data-panel="signups">👥 Sign Up Dashboard</a>
     </aside>
 
     <!-- MAIN -->
@@ -223,9 +224,27 @@
         <div id="lcList"></div>
       </div>
 
+      <!-- SIGN UP DASHBOARD PANEL -->
+      <div class="admin-panel" id="panel-signups">
+        <div class="admin-panel-header">
+          <h2>👥 Sign Up Dashboard</h2>
+          <span class="count-badge" id="signupsCount">0</span>
+        </div>
+        <div class="admin-panel-toolbar" style="display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap">
+          <input type="text" id="signupSearch" placeholder="🔍 Search by name, email or phone..." 
+            style="flex:1;min-width:200px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 14px;color:#e2e8f0;font-size:0.85rem;outline:none"/>
+          <button onclick="exportSignups()" style="background:linear-gradient(135deg,#10b981,#0ea5e9);color:white;border:none;padding:9px 18px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer">⬇ Export CSV</button>
+          <button onclick="clearSignups()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:9px 18px;border-radius:8px;font-size:0.82rem;font-weight:700;cursor:pointer">🗑 Clear All</button>
+        </div>
+        <div class="enrollments-table" id="signupsList">
+          <div class="empty-state">No sign ups yet.</div>
+        </div>
+      </div>
+
     </main>
   </div>
 
+  <script src="api.js"></script>
   <script src="admin.js"></script>
   <script>
     // Mobile sidebar toggle

@@ -180,6 +180,42 @@ function buildLessonBlog(lesson, topic, li, ti) {
           onchange="saveNote('${lesson.id}', this.value)">${getNoteForLesson(lesson.id)}</textarea>
       </div>
 
+      <!-- Module Materials -->
+      ${(topic.materials && topic.materials.length) ? `
+      <div class="lb-section">
+        <div class="lb-section-label">📎 Module Materials</div>
+        <div class="lb-materials-list">
+          ${topic.materials.map(m => `
+            <div class="lb-material-item">
+              <span class="lb-material-icon">📎</span>
+              <span class="lb-material-title">${m.title}</span>
+              <span class="lb-material-type">${m.type}</span>
+              ${m.url ? `<a href="${m.url}" target="_blank" class="lb-material-link">🔗 Open</a>` : ''}
+            </div>`).join('')}
+        </div>
+      </div>` : ''}
+
+      <!-- Module Quiz -->
+      ${(topic.topicQuizzes && topic.topicQuizzes.length) ? `
+      <div class="lb-section">
+        <div class="lb-section-label">🧠 Module Quiz</div>
+        <div class="lb-quiz-block" id="lbquiz-${topic.id}">
+          ${topic.topicQuizzes.map((q, qi) => `
+            <div class="lb-quiz-question">
+              <p class="lb-quiz-q-text"><strong>Q${qi+1}.</strong> ${q.question}</p>
+              <div class="lb-quiz-options">
+                ${q.options.map((opt, oi) => `
+                  <label class="lb-quiz-option">
+                    <input type="radio" name="lbq-${topic.id}-${qi}" value="${['A','B','C','D'][oi]}"
+                      onchange="checkLbAnswer(this,'${topic.id}',${qi},'${q.answer}')"/>
+                    <span>${['A','B','C','D'][oi]}) ${opt}</span>
+                  </label>`).join('')}
+              </div>
+              <div class="lb-quiz-feedback" id="lbfb-${topic.id}-${qi}"></div>
+            </div>`).join('')}
+        </div>
+      </div>` : ''}
+
       <!-- Complete button -->
       <div class="lb-complete-row">
         <button class="btn-complete ${completed.has(lesson.id) ? 'done-btn' : ''}"
@@ -197,6 +233,17 @@ function getNoteForLesson(lid) {
 }
 function saveNote(lid, val) {
   localStorage.setItem(`lf_note_${courseId}_${lid}`, val);
+}
+
+function checkLbAnswer(input, topicId, qi, correct) {
+  const fb = document.getElementById(`lbfb-${topicId}-${qi}`);
+  if (input.value === correct) {
+    fb.innerHTML = '<span style="color:#10b981;font-weight:700">✅ Correct!</span>';
+  } else {
+    fb.innerHTML = `<span style="color:#f87171;font-weight:700">❌ Incorrect. Correct answer: ${correct}</span>`;
+  }
+  // Disable all options for this question
+  document.querySelectorAll(`input[name="lbq-${topicId}-${qi}"]`).forEach(r => r.disabled = true);
 }
 
 function markDone(lid, ti, li) {

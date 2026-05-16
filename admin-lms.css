@@ -1329,3 +1329,11 @@ body { background: var(--dark); color: var(--text); font-family: 'Inter', sans-s
   .lesson-row { flex-wrap: wrap; gap: 6px; font-size: 0.8rem; }
   .course-cards-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Material & Quiz section inside topic card ── */
+.material-section { margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.06); padding-top: 8px; }
+.material-section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,0.35); margin-bottom: 6px; padding-left: 4px; }
+.btn-add-material { background: rgba(14,165,233,0.15); border: 1px solid rgba(14,165,233,0.3); color: #38bdf8; padding: 6px 12px; border-radius: 7px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.btn-add-material:hover { background: rgba(14,165,233,0.28); }
+.btn-add-quiz { background: rgba(139,92,246,0.15); border: 1px solid rgba(139,92,246,0.3); color: #a78bfa; padding: 6px 12px; border-radius: 7px; font-size: 0.78rem; font-weight: 700; cursor: pointer; transition: background 0.2s; }
+.btn-add-quiz:hover { background: rgba(139,92,246,0.28); }

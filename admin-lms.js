@@ -2,6 +2,31 @@
 const getData = () => JSON.parse(localStorage.getItem('lf_lms') || '{}');
 const saveData = d => localStorage.setItem('lf_lms', JSON.stringify(d));
 
+// ── Clear stale localStorage courses that don't match COURSE_DATABASE ─────────
+function cleanStaleLmsData() {
+  const lmsData = getData();
+  if (!Object.keys(lmsData).length) return;
+  // Build set of all valid course names from COURSE_DATABASE
+  const validNames = new Set();
+  if (typeof COURSE_DATABASE !== 'undefined') {
+    Object.values(COURSE_DATABASE).forEach(cat => {
+      Object.values(cat.subcategories || {}).forEach(sub => {
+        (sub.courses || []).forEach(c => validNames.add(c.name.toLowerCase()));
+      });
+    });
+  }
+  // Remove any lms entry whose name is NOT in COURSE_DATABASE (stale/old)
+  let changed = false;
+  Object.keys(lmsData).forEach(id => {
+    const name = (lmsData[id].name || '').toLowerCase();
+    if (!validNames.has(name)) {
+      delete lmsData[id];
+      changed = true;
+    }
+  });
+  if (changed) saveData(lmsData);
+}
+
 let activeCourse = null;
 let activeTopicId = null;
 let qCount = 1;
@@ -10,6 +35,7 @@ let selectedSubcat = 'all';     // subcategory tag filter
 
 // ===== INIT =====
 function init() {
+  cleanStaleLmsData();
   setupProgramButtons();
   renderSubcatFilter();
   populateCourseSelect();
@@ -80,69 +106,82 @@ function selectSubcat(key) {
 }
 
 // ===== RENDER COURSE CARDS (step 3) =====
-// Shows courses from COURSE_DATABASE (catalog) + any custom LMS courses
 function renderCourseCards() {
   const grid = document.getElementById('courseCardsGrid');
-  const lmsData = getData();
+  if (!grid) return;
 
+  const lmsData = getData();
   let cards = [];
 
-  if (selectedCategory === 'all') {
-    // Show all LMS courses
-    Object.keys(lmsData).forEach(id => {
-      cards.push({ id, name: lmsData[id].name, tag: getCategoryLabel(lmsData[id].category), isLms: true });
-    });
-  } else {
-    // Pull from COURSE_DATABASE catalog
-    const catData = typeof COURSE_DATABASE !== 'undefined' ? COURSE_DATABASE[selectedCategory] : null;
-    if (catData) {
-      Object.values(catData.subcategories).forEach(sub => {
-        sub.courses.forEach(course => {
-          const tag = course.tag && course.tag !== 'All' ? course.tag : sub.name;
-          if (selectedSubcat === 'all' || selectedSubcat === tag) {
-            // Check if already in LMS
-            const lmsEntry = Object.entries(lmsData).find(([, c]) => c.name.toLowerCase() === course.name.toLowerCase());
-            cards.push({
-              id: lmsEntry ? lmsEntry[0] : null,
-              catalogId: course.id,
-              name: course.name,
-              tag,
-              duration: course.duration,
-              price: course.price,
-              isLms: !!lmsEntry
-            });
-          }
-        });
-      });
-    }
-    // Also include any custom LMS courses for this category
-    Object.keys(lmsData).forEach(id => {
-      const c = lmsData[id];
-      const catKey = c.category || '';
-      if (catKey === selectedCategory && !cards.find(card => card.id === id)) {
-        cards.push({ id, name: c.name, tag: getCategoryLabel(catKey), isLms: true });
-      }
-    });
-  }
-
-  if (!cards.length) {
-    grid.innerHTML = '<div class="no-courses-msg">No courses yet. Create one!</div>';
+  if (typeof COURSE_DATABASE === 'undefined') {
+    grid.innerHTML = '<div class="no-courses-msg">Course database not loaded.</div>';
     return;
   }
 
-  grid.innerHTML = cards.map(c => `
-    <div class="course-card-item ${activeCourse === c.id ? 'active' : ''}"
-         onclick="selectCourseFromCard('${c.id || ''}', '${encodeURIComponent(c.name)}')">
-      <div class="course-card-top">
-        <h4>${c.name}</h4>
-        ${c.isLms ? '<span class="lms-dot" title="Has LMS content">●</span>' : ''}
-      </div>
-      <div class="course-card-meta">
-        <span class="course-tag-chip">${c.tag}</span>
-        ${c.duration ? `<span class="course-dur">${c.duration}</span>` : ''}
-      </div>
-    </div>
-  `).join('');
+  const categoriesToShow = selectedCategory === 'all'
+    ? Object.keys(COURSE_DATABASE)
+    : [selectedCategory];
+
+  categoriesToShow.forEach(catKey => {
+    const catData = COURSE_DATABASE[catKey];
+    if (!catData || !catData.subcategories) return;
+
+    Object.values(catData.subcategories).forEach(sub => {
+      if (!sub.courses) return;
+      sub.courses.forEach(course => {
+        try {
+          const tag = (course.tag && course.tag !== 'All') ? course.tag : sub.name;
+          if (selectedCategory !== 'all' && selectedSubcat !== 'all' && selectedSubcat !== tag) return;
+
+          const lmsEntry = Object.entries(lmsData).find(([, c]) => c.name && c.name.toLowerCase() === course.name.toLowerCase());
+          cards.push({
+            id: lmsEntry ? lmsEntry[0] : null,
+            catalogId: course.id,
+            name: course.name,
+            tag,
+            duration: course.duration || '',
+            price: course.price || '',
+            catKey,
+            isLms: !!lmsEntry
+          });
+        } catch(e) { console.warn('Card error:', e); }
+      });
+    });
+  });
+
+  // Custom LMS courses not in COURSE_DATABASE
+  Object.keys(lmsData).forEach(id => {
+    const c = lmsData[id];
+    if (!cards.find(card => card.id === id)) {
+      const catKey = c.category || '';
+      if (selectedCategory === 'all' || catKey === selectedCategory) {
+        cards.push({ id, name: c.name, tag: getCategoryLabel(catKey), isLms: true, duration: c.duration || '', price: '' });
+      }
+    }
+  });
+
+  if (!cards.length) {
+    grid.innerHTML = '<div class="no-courses-msg">No courses found.</div>';
+    return;
+  }
+
+  grid.innerHTML = cards.map(c => {
+    const safeName = encodeURIComponent(c.name || '');
+    const safeId = (c.id || '').replace(/'/g, '');
+    return `
+      <div class="course-card-item ${activeCourse === c.id ? 'active' : ''}"
+           onclick="selectCourseFromCard('${safeId}', '${safeName}')">
+        <div class="course-card-top">
+          <h4>${c.name}</h4>
+          ${c.isLms ? '<span class="lms-dot" title="Has LMS content">●</span>' : ''}
+        </div>
+        <div class="course-card-meta">
+          <span class="course-tag-chip">${c.tag}</span>
+          ${c.duration ? `<span class="course-dur">⏱ ${c.duration}</span>` : ''}
+          ${c.price ? `<span class="course-dur" style="color:#facc15">${c.price}</span>` : ''}
+        </div>
+      </div>`;
+  }).join('');
 }
 
 function getCategoryLabel(cat) {
@@ -150,7 +189,8 @@ function getCategoryLabel(cat) {
     agentic: '🤖 Agentic AI',
     genai: '✨ Generative AI',
     datascience: '🔬 Data Science',
-    domainai: '🏭 Industry AI'
+    domainai: '🏭 Industry AI',
+    programming: '💻 Programming'
   };
   return labels[cat] || cat;
 }
@@ -189,8 +229,9 @@ function detectCategoryFromName(name) {
   const n = name.toLowerCase();
   if (n.includes('agentic') || n.includes('agent')) return 'agentic';
   if (n.includes('generative') || n.includes('llm') || n.includes('gpt') || n.includes('rag') || n.includes('mcp') || n.includes('prompt')) return 'genai';
-  if (n.includes('data')) return 'datascience';
-  if (n.includes('domain') || n.includes('healthcare') || n.includes('finance') || n.includes('banking')) return 'domainai';
+  if (n.includes('python') || n.includes('sql') || n.includes('nosql') || n.includes('database') || n.includes('programming')) return 'programming';
+  if (n.includes('data') || n.includes('excel') || n.includes('analytics') || n.includes('machine learning') || n.includes('deep learning') || n.includes('nlp')) return 'datascience';
+  if (n.includes('healthcare') || n.includes('finance') || n.includes('banking') || n.includes('retail') || n.includes('telecom') || n.includes('robotics') || n.includes('automation') || n.includes('industry')) return 'domainai';
   return 'genai';
 }
 
@@ -320,12 +361,17 @@ function renderTopics() {
         <div class="topic-actions">
           <button class="btn-ai-lessons" onclick="openAILessonsPrompt('${t.id}')">✨ AI Lessons</button>
           <button class="btn-add-lesson" onclick="openLessonModal('${t.id}','${t.title.replace(/'/g,"\\'")}')">+ Add Lesson</button>
+          <button class="btn-edit-lesson" onclick="editTopicTitle('${t.id}','${t.title.replace(/'/g,"\\'")}')">✏️ Edit</button>
+          <button class="btn-add-material" onclick="openMaterialModal('${t.id}','${t.title.replace(/'/g,"\\'")}')">📎 Material</button>
+          <button class="btn-add-quiz" onclick="openTopicQuizModal('${t.id}','${t.title.replace(/'/g,"\\'")}')">🧠 Quiz</button>
           <button class="btn-del" onclick="deleteTopic('${t.id}')">🗑</button>
         </div>
       </div>
       <div class="lessons-list" id="lessons-${t.id}">
         ${renderLessonRows(t)}
       </div>
+      ${renderMaterialRows(t)}
+      ${renderTopicQuizRows(t)}
     </div>`).join('');
 }
 
@@ -347,11 +393,85 @@ function lessonIcon(type) {
   return { Video: '▶', Reading: '📖', 'Live Session': '🔴', Lab: '🧪' }[type] || '📄';
 }
 
+// ── Materials ─────────────────────────────────────────────────────────────────
+function renderMaterialRows(t) {
+  const materials = t.materials || [];
+  if (!materials.length) return '';
+  return `
+    <div class="material-section">
+      <div class="material-section-label">📎 Materials</div>
+      ${materials.map((m, i) => `
+        <div class="lesson-row">
+          <span class="lesson-num">${i+1}</span>
+          <span class="lesson-type-icon">📎</span>
+          <span class="lesson-name">${m.title}</span>
+          <span class="lesson-dur">${m.type}</span>
+          ${m.url ? `<a href="${m.url}" target="_blank" class="btn-preview-lesson" title="Open">🔗</a>` : ''}
+          <button class="btn-del-sm" onclick="deleteMaterial('${t.id}','${m.id}')">✕</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+function openMaterialModal(topicId, topicName) {
+  window._materialTopicId = topicId;
+  document.getElementById('materialTopicName').textContent = topicName;
+  document.getElementById('materialTitle').value = '';
+  document.getElementById('materialUrl').value = '';
+  document.getElementById('materialType').value = 'PDF';
+  document.getElementById('materialModal').classList.add('active');
+}
+
+function deleteMaterial(topicId, materialId) {
+  const data = getData();
+  const topic = data[activeCourse].topics.find(t => t.id === topicId);
+  if (!topic) return;
+  topic.materials = (topic.materials || []).filter(m => m.id !== materialId);
+  saveData(data); renderTopics();
+}
+
+// ── Topic Quizzes ─────────────────────────────────────────────────────────────
+function renderTopicQuizRows(t) {
+  const quizzes = t.topicQuizzes || [];
+  if (!quizzes.length) return '';
+  return `
+    <div class="material-section">
+      <div class="material-section-label">🧠 Quizzes</div>
+      ${quizzes.map((q, i) => `
+        <div class="lesson-row">
+          <span class="lesson-num">${i+1}</span>
+          <span class="lesson-type-icon">🧠</span>
+          <span class="lesson-name">${q.question}</span>
+          <span class="lesson-dur">${q.options.length} options</span>
+          <button class="btn-del-sm" onclick="deleteTopicQuiz('${t.id}','${q.id}')">✕</button>
+        </div>`).join('')}
+    </div>`;
+}
+
+function deleteTopicQuiz(topicId, quizId) {
+  const data = getData();
+  const topic = data[activeCourse].topics.find(t => t.id === topicId);
+  if (!topic) return;
+  topic.topicQuizzes = (topic.topicQuizzes || []).filter(q => q.id !== quizId);
+  saveData(data); renderTopics();
+}
+
 function deleteTopic(tid) {
   if (!confirm('Delete this topic?')) return;
   const data = getData();
   data[activeCourse].topics = data[activeCourse].topics.filter(t => t.id !== tid);
   saveData(data); renderTopics();
+}
+
+function editTopicTitle(tid, currentTitle) {
+  const newTitle = prompt('Edit module title:', currentTitle);
+  if (!newTitle || !newTitle.trim() || newTitle.trim() === currentTitle) return;
+  const data = getData();
+  const topic = data[activeCourse].topics.find(t => t.id === tid);
+  if (topic) {
+    topic.title = newTitle.trim();
+    saveData(data);
+    renderTopics();
+  }
 }
 
 function deleteLesson(tid, lid) {
@@ -751,12 +871,18 @@ function openEditLessonModal(topicId, lessonId) {
   document.getElementById('lessonTopicName').textContent = topic.title;
   document.getElementById('lessonTitle').value = lesson.title || '';
   document.getElementById('lessonVideo').value = lesson.video || '';
-  document.getElementById('lessonContent').value = lesson.content || '';
-  document.getElementById('lessonContentText').value = '';
   document.getElementById('lessonDuration').value = lesson.duration || '';
   document.getElementById('lessonType').value = lesson.type || 'Video';
   document.getElementById('saveLessonBtn').textContent = '💾 Update Lesson';
+
+  // Open modal first so it feels instant
   document.getElementById('lessonModal').classList.add('active');
+
+  // Defer loading large content so modal renders before filling textarea
+  setTimeout(() => {
+    document.getElementById('lessonContent').value = lesson.content || '';
+    document.getElementById('lessonContentText').value = '';
+  }, 50);
 }
 
 document.getElementById('saveLessonBtn').addEventListener('click', () => {
@@ -983,10 +1109,24 @@ let aiGenerateMode = 'inject'; // always inject into active course from tab butt
 let aiCurrentModules = [];     // modules generated in step 2
 let aiLastPrompt = '';         // for regenerate
 
-// ── Helpers ──────────────────────────────────────────────────────────────────
-const GROQ_API_KEY = 'YOUR_GROQ_API_KEY_HERE'; // ← paste your Groq key here (get it from console.groq.com)
-function getGroqKey() { return GROQ_API_KEY; }
-function saveGroqKey() {}
+// ── Groq API Key — stored in localStorage so admin sets it once ──────────────
+function getGroqKey() {
+  return localStorage.getItem('groq_api_key') || '';
+}
+function saveGroqKey(key) {
+  localStorage.setItem('groq_api_key', key.trim());
+}
+function saveGroqKeyFromInput() {
+  const key = document.getElementById('groqApiKeyInput').value.trim();
+  if (!key || !key.startsWith('gsk_')) {
+    document.getElementById('groqKeyStatus').textContent = '❌ Invalid key — must start with gsk_';
+    document.getElementById('groqKeyStatus').style.color = '#f87171';
+    return;
+  }
+  saveGroqKey(key);
+  document.getElementById('groqKeyStatus').textContent = '✅ Key saved!';
+  document.getElementById('groqKeyStatus').style.color = '#10b981';
+}
 
 // ── Open prompt modal from tab button ────────────────────────────────────────
 document.getElementById('btnAIGenerateCourse').addEventListener('click', () => {
@@ -995,6 +1135,11 @@ document.getElementById('btnAIGenerateCourse').addEventListener('click', () => {
   document.getElementById('aiPromptCourseName').textContent = '📘 ' + course.name;
   document.getElementById('aiModulesCourseLabel').textContent = '📘 ' + course.name;
   document.getElementById('aiPromptText').value = '';
+  // Pre-fill saved key
+  const savedKey = getGroqKey();
+  document.getElementById('groqApiKeyInput').value = savedKey;
+  document.getElementById('groqKeyStatus').textContent = savedKey ? '✅ Key loaded from storage' : '⚠️ No key saved yet — paste your Groq key above';
+  document.getElementById('groqKeyStatus').style.color = savedKey ? '#10b981' : '#f59e0b';
   document.getElementById('aiPromptModal').classList.add('active');
 });
 
@@ -1554,3 +1699,235 @@ document.getElementById('btnSaveCourse').addEventListener('click', () => {
 document.getElementById('courseSelect').addEventListener('change', () => {
   document.getElementById('btnSaveCourse').style.display = activeCourse ? 'block' : 'none';
 });
+
+// ── Material modal save ───────────────────────────────────────────────────────
+document.getElementById('saveMaterialBtn')?.addEventListener('click', () => {
+  const title = document.getElementById('materialTitle').value.trim();
+  if (!title) return alert('Enter material title');
+  const data = getData();
+  const topic = data[activeCourse].topics.find(t => t.id === window._materialTopicId);
+  if (!topic) return;
+  if (!topic.materials) topic.materials = [];
+  topic.materials.push({
+    id: 'mat_' + Date.now(),
+    title,
+    url: document.getElementById('materialUrl').value.trim(),
+    type: document.getElementById('materialType').value
+  });
+  saveData(data);
+  document.getElementById('materialModal').classList.remove('active');
+  renderTopics();
+});
+document.getElementById('cancelMaterialBtn')?.addEventListener('click', () => document.getElementById('materialModal').classList.remove('active'));
+document.getElementById('closeMaterialModal')?.addEventListener('click', () => document.getElementById('materialModal').classList.remove('active'));
+
+// ── Topic Quiz modal save ─────────────────────────────────────────────────────
+// ── Topic Quiz modal save ─────────────────────────────────────────────────────
+let _quizQueue = []; // questions queued in this session
+
+function openTopicQuizModal(topicId, topicName) {
+  window._quizTopicId = topicId;
+  _quizQueue = [];
+  document.getElementById('topicQuizTopicName').textContent = topicName;
+  document.getElementById('topicQuizQuestion').value = '';
+  document.getElementById('topicQuizOpt1').value = '';
+  document.getElementById('topicQuizOpt2').value = '';
+  document.getElementById('topicQuizOpt3').value = '';
+  document.getElementById('topicQuizOpt4').value = '';
+  document.getElementById('topicQuizAnswer').value = 'A';
+  document.getElementById('quizQueueList').innerHTML = '';
+  document.getElementById('topicQuizModal').classList.add('active');
+}
+
+function queueQuizQuestion() {
+  const question = document.getElementById('topicQuizQuestion').value.trim();
+  const opt1 = document.getElementById('topicQuizOpt1').value.trim();
+  const opt2 = document.getElementById('topicQuizOpt2').value.trim();
+  if (!question || !opt1 || !opt2) return alert('Enter question and at least 2 options');
+
+  const options = [opt1, opt2,
+    document.getElementById('topicQuizOpt3').value.trim(),
+    document.getElementById('topicQuizOpt4').value.trim()
+  ].filter(Boolean);
+
+  const q = { id: 'tquiz_' + Date.now() + '_' + _quizQueue.length, question, options, answer: document.getElementById('topicQuizAnswer').value };
+  _quizQueue.push(q);
+
+  // Show queued questions
+  const labels = ['A','B','C','D'];
+  document.getElementById('quizQueueList').innerHTML = _quizQueue.map((q, i) => `
+    <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.83rem">
+      <strong style="color:#a78bfa">Q${i+1}:</strong> ${q.question}
+      <div style="color:#64748b;margin-top:4px">${q.options.map((o,j) => `${labels[j]}) ${o}`).join(' · ')} — <span style="color:#10b981">✓ ${q.answer}</span></div>
+    </div>`).join('');
+
+  // Clear form for next question
+  document.getElementById('topicQuizQuestion').value = '';
+  document.getElementById('topicQuizOpt1').value = '';
+  document.getElementById('topicQuizOpt2').value = '';
+  document.getElementById('topicQuizOpt3').value = '';
+  document.getElementById('topicQuizOpt4').value = '';
+  document.getElementById('topicQuizAnswer').value = 'A';
+  document.getElementById('topicQuizQuestion').focus();
+}
+
+document.getElementById('saveTopicQuizBtn')?.addEventListener('click', () => {
+  // Also save the current form if filled
+  const question = document.getElementById('topicQuizQuestion').value.trim();
+  const opt1 = document.getElementById('topicQuizOpt1').value.trim();
+  const opt2 = document.getElementById('topicQuizOpt2').value.trim();
+  if (question && opt1 && opt2) queueQuizQuestion();
+
+  if (!_quizQueue.length) return alert('Add at least one question');
+
+  const data = getData();
+  const topic = data[activeCourse].topics.find(t => t.id === window._quizTopicId);
+  if (!topic) return;
+  if (!topic.topicQuizzes) topic.topicQuizzes = [];
+  topic.topicQuizzes.push(..._quizQueue);
+  saveData(data);
+  _quizQueue = [];
+  document.getElementById('topicQuizModal').classList.remove('active');
+  renderTopics();
+});
+document.getElementById('cancelTopicQuizBtn')?.addEventListener('click', () => document.getElementById('topicQuizModal').classList.remove('active'));
+document.getElementById('closeTopicQuizModal')?.addEventListener('click', () => document.getElementById('topicQuizModal').classList.remove('active'));
+
+// =====================================================
+//  AI GENERATE QUIZ (MCQ)
+// =====================================================
+async function aiGenerateQuiz() {
+  const apiKey = getGroqKey();
+  if (!apiKey) return alert('No Groq API key saved. Open ✨ AI Generate on the Topics tab to save your key first.');
+
+  const data = getData();
+  const course = data[activeCourse];
+  const topicName = document.getElementById('topicQuizTopicName').textContent;
+  const count = parseInt(document.getElementById('quizAiCount').value) || 5;
+
+  const statusEl = document.getElementById('quizAiStatus');
+  statusEl.style.display = 'block';
+  statusEl.textContent = `⏳ Generating ${count} MCQs for "${topicName}"...`;
+
+  const prompt = `Generate exactly ${count} multiple choice questions (MCQs) for a module titled "${topicName}" in the course "${course?.name || ''}".
+Return ONLY a valid JSON array. Each item must have:
+- "question": string
+- "options": array of exactly 4 strings (A, B, C, D)
+- "answer": one of "A", "B", "C", "D"
+
+Example:
+[{"question":"What is X?","options":["Option A","Option B","Option C","Option D"],"answer":"B"}]
+
+Return ONLY the JSON array, no explanation.`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 2000
+      })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error?.message || 'API error');
+
+    const text = json.choices[0].message.content.trim();
+    const start = text.indexOf('[');
+    const end = text.lastIndexOf(']') + 1;
+    const questions = JSON.parse(text.slice(start, end));
+
+    // Add to queue
+    questions.forEach((q, i) => {
+      _quizQueue.push({
+        id: 'tquiz_ai_' + Date.now() + '_' + i,
+        question: q.question,
+        options: q.options,
+        answer: q.answer
+      });
+    });
+
+    // Render queue
+    const labels = ['A','B','C','D'];
+    document.getElementById('quizQueueList').innerHTML = _quizQueue.map((q, i) => `
+      <div style="background:rgba(139,92,246,0.1);border:1px solid rgba(139,92,246,0.25);border-radius:8px;padding:10px 14px;margin-bottom:8px;font-size:0.83rem">
+        <strong style="color:#a78bfa">Q${i+1}:</strong> ${q.question}
+        <div style="color:#64748b;margin-top:4px">${q.options.map((o,j) => `${labels[j]}) ${o}`).join(' · ')} — <span style="color:#10b981">✓ ${q.answer}</span></div>
+      </div>`).join('');
+
+    statusEl.textContent = `✅ ${questions.length} questions generated! Review above and click "Save All Questions".`;
+    statusEl.style.color = '#10b981';
+  } catch(e) {
+    statusEl.textContent = '❌ ' + (e.message || 'Generation failed');
+    statusEl.style.color = '#f87171';
+  }
+}
+
+// =====================================================
+//  AI GENERATE ASSIGNMENTS
+// =====================================================
+async function aiGenerateAssignments() {
+  const apiKey = getGroqKey();
+  if (!apiKey) return alert('No Groq API key saved. Open ✨ AI Generate on the Topics tab to save your key first.');
+
+  const data = getData();
+  const course = data[activeCourse];
+  if (!course) return alert('No course selected');
+
+  const statusEl = document.getElementById('aiAssignStatus');
+  statusEl.style.display = 'block';
+  statusEl.style.color = '#a78bfa';
+  statusEl.textContent = `⏳ Generating assignments for "${course.name}"...`;
+
+  const prompt = `Generate 4 practical assignments for the course "${course.name}".
+Return ONLY a valid JSON array. Each item must have:
+- "title": string (assignment name)
+- "description": string (2-3 sentences describing the task)
+- "due": number (days from enrollment, e.g. 7, 14, 21, 30)
+- "marks": number (max marks, e.g. 100)
+
+Return ONLY the JSON array, no explanation.`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        max_tokens: 1500
+      })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error?.message || 'API error');
+
+    const text = json.choices[0].message.content.trim();
+    const start = text.indexOf('[');
+    const end = text.lastIndexOf(']') + 1;
+    const assignments = JSON.parse(text.slice(start, end));
+
+    // Save to course
+    if (!course.assignments) course.assignments = [];
+    assignments.forEach(a => {
+      course.assignments.push({
+        id: 'assign_ai_' + Date.now() + '_' + Math.random().toString(36).slice(2),
+        title: a.title,
+        description: a.description,
+        due: a.due || 7,
+        marks: a.marks || 100
+      });
+    });
+    saveData(data);
+    renderAssignments();
+
+    statusEl.textContent = `✅ ${assignments.length} assignments generated and saved!`;
+    statusEl.style.color = '#10b981';
+    setTimeout(() => { statusEl.style.display = 'none'; }, 3000);
+  } catch(e) {
+    statusEl.textContent = '❌ ' + (e.message || 'Generation failed');
+    statusEl.style.color = '#f87171';
+  }
+}

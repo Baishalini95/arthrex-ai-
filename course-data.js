@@ -529,13 +529,23 @@ const COURSE_DATABASE = {
         courses: [
           {
             id: "ds-1",
-            name: "Data Science with Python",
+            name: "Data Science with Machine Learning",
             tag: "Data Science",
-            description: "Master NumPy, Pandas, Matplotlib & Scikit-learn for real-world projects.",
+            description: "Master NumPy, Pandas, Scikit-learn, ML algorithms & real-world predictive modelling projects.",
             duration: "6 hrs",
             rating: 4.9,
             enrolled: "38K",
-            price: "₹5,000"
+            price: "₹19,999"
+          },
+          {
+            id: "ds-2",
+            name: "Deep Learning & NLP",
+            tag: "Data Science",
+            description: "Build neural networks, CNNs, RNNs & NLP pipelines using TensorFlow, PyTorch and Hugging Face.",
+            duration: "7 hrs",
+            rating: 4.9,
+            enrolled: "22K",
+            price: "₹9,999"
           }
         ]
       },
@@ -545,23 +555,33 @@ const COURSE_DATABASE = {
         courses: [
           {
             id: "da-1",
-            name: "Business Analytics & Visualization",
+            name: "Data Analytics & AI Tools",
             tag: "Data Analytics",
             description: "Turn raw data into business insights using Power BI & Tableau.",
             duration: "4 hrs",
             rating: 4.8,
             enrolled: "29K",
-            price: "₹4,000"
+            price: "₹31,999"
           },
           {
             id: "da-2",
-            name: "SQL & Database Analytics",
+            name: "Advance Data Analytics",
             tag: "Data Analytics",
             description: "Write advanced SQL queries and build analytics dashboards from scratch.",
             duration: "3.5 hrs",
             rating: 4.7,
             enrolled: "17K",
-            price: "₹3,500"
+            price: "₹39,999"
+          },
+          {
+            id: "da-3",
+            name: "Advance Excel",
+            tag: "Data Analytics",
+            description: "Master advanced Excel formulas, pivot tables, dashboards & data analysis for business insights.",
+            duration: "4 hrs",
+            rating: 4.8,
+            enrolled: "25K",
+            price: "₹9,999"
           }
         ]
       },
@@ -577,7 +597,7 @@ const COURSE_DATABASE = {
             duration: "3 hrs",
             rating: 4.9,
             enrolled: "21K",
-            price: "₹3,000"
+            price: "₹9,999"
           }
         ]
       }
@@ -601,7 +621,7 @@ const COURSE_DATABASE = {
             duration: "5 hrs",
             rating: 4.9,
             enrolled: "14K",
-            price: "₹5,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -617,7 +637,7 @@ const COURSE_DATABASE = {
             duration: "4 hrs",
             rating: 4.8,
             enrolled: "11K",
-            price: "₹4,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -633,7 +653,7 @@ const COURSE_DATABASE = {
             duration: "4.5 hrs",
             rating: 4.9,
             enrolled: "18K",
-            price: "₹5,000"
+            price: "₹9,999"
           }
         ]
       },
@@ -649,7 +669,7 @@ const COURSE_DATABASE = {
             duration: "5 hrs",
             rating: 4.9,
             enrolled: "16K",
-            price: "₹5,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -665,7 +685,7 @@ const COURSE_DATABASE = {
             duration: "3.5 hrs",
             rating: 4.7,
             enrolled: "8K",
-            price: "₹4,000"
+            price: "₹9,999"
           }
         ]
       },
@@ -681,7 +701,7 @@ const COURSE_DATABASE = {
             duration: "4 hrs",
             rating: 4.8,
             enrolled: "12K",
-            price: "₹4,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -697,7 +717,7 @@ const COURSE_DATABASE = {
             duration: "3 hrs",
             rating: 4.8,
             enrolled: "9K",
-            price: "₹3,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -713,7 +733,7 @@ const COURSE_DATABASE = {
             duration: "4 hrs",
             rating: 4.9,
             enrolled: "13K",
-            price: "₹4,500"
+            price: "₹9,999"
           }
         ]
       },
@@ -729,7 +749,47 @@ const COURSE_DATABASE = {
             duration: "6 hrs",
             rating: 4.9,
             enrolled: "7K",
-            price: "₹6,000"
+            price: "₹9,999"
+          }
+        ]
+      }
+    }
+  },
+
+  // Programming Courses
+  programming: {
+    name: "Programming",
+    emoji: "💻",
+    subcategories: {
+      python: {
+        name: "Python",
+        icon: "🐍",
+        courses: [
+          {
+            id: "prog-1",
+            name: "Python for AI & Analytics",
+            tag: "Python",
+            description: "Master Python programming for data analysis, automation and building AI-powered applications.",
+            duration: "5 hrs",
+            rating: 4.9,
+            enrolled: "32K",
+            price: "₹9,999"
+          }
+        ]
+      },
+      database: {
+        name: "Database",
+        icon: "🗄️",
+        courses: [
+          {
+            id: "prog-2",
+            name: "Database - SQL & NoSQL",
+            tag: "Database",
+            description: "Learn relational databases with SQL and modern NoSQL databases like MongoDB & Firebase from scratch.",
+            duration: "4 hrs",
+            rating: 4.8,
+            enrolled: "18K",
+            price: "₹9,999"
           }
         ]
       }
