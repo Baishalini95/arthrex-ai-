@@ -4,7 +4,14 @@
  * Falls back to localStorage if server is not running
  */
 
-const API_BASE = 'http://localhost:8000/api';
+// Backend URL — update RENDER_URL after deploying to Render
+const RENDER_URL = 'https://arthrex-ai-backend.onrender.com/api';
+const LOCAL_URL  = 'http://localhost:8000/api';
+
+// Auto-detect: use Render in production, localhost in dev
+const API_BASE = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')
+  ? LOCAL_URL
+  : RENDER_URL;
 
 async function apiCall(method, endpoint, body = null) {
   try {
