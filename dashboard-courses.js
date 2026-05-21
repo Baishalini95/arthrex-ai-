@@ -77,7 +77,7 @@ function loadDashboardCourses() {
             <a href="lms.html?course=${encodeURIComponent(course.name)}&user=Learner" class="btn-enroll">
               ${pct > 0 ? '▶ Continue' : '▶ Start Course'}
             </a>
-            <a href="admin-lms.html" class="btn-edit-course" onclick="localStorage.setItem('lf_active_course','${id}')">✏️ Edit</a>
+            <a href="admin-lms" class="btn-edit-course" onclick="localStorage.setItem('lf_active_course','${id}')">✏️ Edit</a>
           </div>
         </div>
       </div>`;

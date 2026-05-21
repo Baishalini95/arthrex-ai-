@@ -2,6 +2,13 @@
   "version": 2,
   "cleanUrls": true,
   "trailingSlash": false,
+  "rewrites": [
+    { "source": "/admin-lms", "destination": "/admin-lms.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/lms", "destination": "/lms.html" },
+    { "source": "/curriculum", "destination": "/curriculum.html" },
+    { "source": "/website", "destination": "/website.html" }
+  ],
   "headers": [
     {
       "source": "/(.*).css",
